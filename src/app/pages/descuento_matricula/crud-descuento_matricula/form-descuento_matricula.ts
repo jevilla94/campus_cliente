@@ -21,6 +21,7 @@ export let FORM_DESCUENTO_MATRICULA = {
         etiqueta: 'file',
         claseGrid: 'col-lg-12 col-md-12 col-sm-12 col-xs-12',
         clase: 'form-control',
+        // nombre: 'DocumentoSoporte',
         nombre: 'Soporte',
         label_i18n: 'enlace',
         placeholder_i18n: 'enlace',

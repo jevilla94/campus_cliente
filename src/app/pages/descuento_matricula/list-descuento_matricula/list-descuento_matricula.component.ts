@@ -39,7 +39,7 @@ export class ListDescuentoMatriculaComponent implements OnInit {
         cancelButtonContent: '<i class="nb-close"></i>',
       },
       edit: {
-        editButtonContent: '<i class="nb-edit"></i>',
+        editButtonContent: '<i class="nb-edit" hidden="true"></i>',
         saveButtonContent: '<i class="nb-checkmark"></i>',
         cancelButtonContent: '<i class="nb-close"></i>',
       },

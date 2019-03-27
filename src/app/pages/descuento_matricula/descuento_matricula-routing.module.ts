@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DescuentoMatriculaComponent } from './descuento_matricula.component';
 import { ListDescuentoMatriculaComponent } from './list-descuento_matricula/list-descuento_matricula.component';
 import { CrudDescuentoMatriculaComponent } from './crud-descuento_matricula/crud-descuento_matricula.component';
+// import { ViewDescuentoMatriculaComponent } from './view-descuento_matricula/view-descuento_matricula.component';
 
 
 
