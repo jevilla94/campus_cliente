@@ -49,14 +49,14 @@ export class ViewIdiomasComponent implements OnInit {
             }
         },
         (error: HttpErrorResponse) => {
-            Swal({
-                type: 'error',
-                title: error.status + '',
-                text: this.translate.instant('ERROR.' + error.status),
-                footer: this.translate.instant('GLOBAL.cargar') + '-' +
-                    this.translate.instant('GLOBAL.idiomas'),
-                confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-            });
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.idiomas'),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
         });
   }
 

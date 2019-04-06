@@ -56,6 +56,8 @@ export class ViewInformacionContactoComponent implements OnInit {
             type: 'error',
             title: error.status + '',
             text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.informacion_contacto'),
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
           });
         });

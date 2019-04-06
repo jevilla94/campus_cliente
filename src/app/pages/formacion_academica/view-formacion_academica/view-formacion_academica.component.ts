@@ -78,6 +78,7 @@ export class ViewFormacionAcademicaComponent implements OnInit {
                           title: error.status + '',
                           text: this.translate.instant('ERROR.' + error.status),
                           footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                            this.translate.instant('GLOBAL.formacion_academica') + '|' +
                             this.translate.instant('GLOBAL.pais_universidad'),
                           confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                         });
@@ -90,6 +91,7 @@ export class ViewFormacionAcademicaComponent implements OnInit {
                       title: error.status + '',
                       text: this.translate.instant('ERROR.' + error.status),
                       footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                        this.translate.instant('GLOBAL.formacion_academica') + '|' +
                         this.translate.instant('GLOBAL.nombre_universidad'),
                       confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                     });
@@ -102,6 +104,7 @@ export class ViewFormacionAcademicaComponent implements OnInit {
                   title: error.status + '',
                   text: this.translate.instant('ERROR.' + error.status),
                   footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                    this.translate.instant('GLOBAL.formacion_academica') + '|' +
                     this.translate.instant('GLOBAL.programa_academico'),
                   confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                 });

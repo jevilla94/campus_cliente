@@ -1,4 +1,4 @@
-import { Component, OnInit , OnChanges} from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ImplicitAutenticationService } from './../../../@core/utils/implicit_autentication.service';
 import { PersonaService } from '../../../@core/data/persona.service';
@@ -34,6 +34,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
   percentage_expe: number = 0;
   percentage_proy: number = 0;
   percentage_prod: number = 0;
+  percentage_desc: number = 0;
   percentage_total: number = 0;
 
   total: boolean = false;
@@ -43,6 +44,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
   percentage_tab_acad = [];
   percentage_tab_proy = [];
   percentage_tab_prod = [];
+  percentage_tab_desc = [];
   posgrados = [];
 
   show_info = false;
@@ -51,6 +53,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
   show_expe = false;
   show_proy = false;
   show_prod = false;
+  show_desc = false;
 
   info_contacto: boolean;
   info_persona: boolean;
@@ -98,6 +101,12 @@ export class PosgradoComponent implements OnInit, OnChanges {
     this.setPercentage_total();
   }
 
+  setPercentage_desc(number, tab) {
+    this.percentage_tab_desc[tab] = (number * 100) / 1;
+    this.percentage_desc = Math.round(UtilidadesService.getSumArray(this.percentage_tab_desc));
+    this.setPercentage_total();
+  }
+
   setPercentage_prod(number, tab) {
     this.percentage_tab_prod[tab] = (number * 100) / 1;
     this.percentage_prod = Math.round(UtilidadesService.getSumArray(this.percentage_tab_prod));
@@ -124,30 +133,30 @@ export class PosgradoComponent implements OnInit, OnChanges {
         if (res !== null && r.Type !== 'error') {
           this.posgrados = <any>res;
           this.admisionesService.get(`admision/?query=Aspirante:${this.info_ente_id}`)
-      .subscribe(res_2 => {
-        const r_2 = <any>res_2;
-        if (res_2 !== null && r_2.Type !== 'error') {
-          this.selectedValue = res[res_2[0].ProgramaAcademico - 1];
+            .subscribe(res_2 => {
+              const r_2 = <any>res_2;
+              if (res_2 !== null && r_2.Type !== 'error') {
+                this.selectedValue = res[res_2[0].ProgramaAcademico - 1];
+              }
+            },
+              (error_2: HttpErrorResponse) => {
+                Swal({
+                  type: 'error',
+                  title: error_2.status + '',
+                  text: this.translate.instant('ERROR.' + error_2.status),
+                  confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                });
+              });
         }
       },
-      (error_2: HttpErrorResponse) => {
-        Swal({
-          type: 'error',
-          title: error_2.status + '',
-          text: this.translate.instant('ERROR.' + error_2.status),
-          confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+        (error: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
         });
-      });
-        }
-      },
-      (error: HttpErrorResponse) => {
-        Swal({
-          type: 'error',
-          title: error.status + '',
-          text: this.translate.instant('ERROR.' + error.status),
-          confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-        });
-      });
   }
 
   getInfoPersonaId() {
@@ -165,14 +174,14 @@ export class PosgradoComponent implements OnInit, OnChanges {
             this.info_ente_id = this.info_info_persona.Ente;
           }
         },
-        (error: HttpErrorResponse) => {
-          Swal({
-            type: 'error',
-            title: error.status + '',
-            text: this.translate.instant('ERROR.' + error.status),
-            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          (error: HttpErrorResponse) => {
+            Swal({
+              type: 'error',
+              title: error.status + '',
+              text: this.translate.instant('ERROR.' + error.status),
+              confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+            });
           });
-        });
     } else {
       this.info_persona_id = undefined;
       this.info_ente_id = undefined;
@@ -194,6 +203,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.info_caracteristica = false;
         this.info_persona = false;
         this.show_proy = false;
+        this.show_desc = false;
         this.show_prod = false;
         break;
       case 'info_caracteristica':
@@ -205,6 +215,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.info_caracteristica = true;
         this.info_persona = false;
         this.show_proy = false;
+        this.show_desc = false;
         this.show_prod = false;
         break;
       case 'info_persona':
@@ -215,23 +226,30 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.info_contacto = false;
         this.info_caracteristica = false;
         this.info_persona = true;
+        this.show_desc = false;
         this.show_proy = false;
         this.show_prod = false;
         break;
       case 'experiencia_laboral':
         this.show_info = false;
         this.show_profile = false;
+        this.info_contacto = false;
+        this.info_caracteristica = false;
         this.show_acad = false;
         this.show_expe = true;
         this.show_proy = false;
+        this.show_desc = false;
         this.show_prod = false;
         break;
       case 'formacion_academica':
         this.show_info = false;
+        this.info_contacto = false;
+        this.info_caracteristica = false;
         this.show_profile = false;
         this.show_acad = true;
         this.show_expe = false;
         this.show_proy = false;
+        this.show_desc = false;
         this.show_prod = false;
         break;
       case 'produccion_academica':
@@ -242,21 +260,39 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.info_contacto = false;
         this.info_caracteristica = false;
         this.info_persona = true;
+        this.show_desc = false;
         this.show_proy = false;
         this.show_prod = true;
+        break;
+      case 'matricula_descuentos':
+        this.show_info = false;
+        this.show_profile = false;
+        this.show_acad = false;
+        this.show_expe = false;
+        this.info_contacto = false;
+        this.info_caracteristica = false;
+        this.show_proy = false;
+        this.show_desc = true;
+        this.show_prod = false;
         break;
       case 'propuesta_grado':
         this.show_info = false;
         this.show_profile = false;
         this.show_acad = false;
         this.show_expe = false;
+        this.info_contacto = false;
+        this.info_caracteristica = false;
         this.show_proy = true;
+        this.show_desc = false;
         this.show_prod = false;
         break;
       case 'perfil':
         this.show_info = false;
         this.show_profile = true;
         this.show_acad = false;
+        this.info_contacto = false;
+        this.info_caracteristica = false;
+        this.show_desc = false;
         this.show_expe = false;
         this.show_proy = false;
         this.show_prod = false;
@@ -265,6 +301,9 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.show_info = false;
         this.show_profile = false;
         this.show_acad = false;
+        this.info_contacto = false;
+        this.info_caracteristica = false;
+        this.show_desc = false;
         this.show_expe = false;
         this.show_proy = false;
         this.show_prod = false;
@@ -300,14 +339,14 @@ export class PosgradoComponent implements OnInit, OnChanges {
   DatosMidPersona() {
     this.captureScreen();
     this.campusMidService.get(`persona/ConsultaPersona/?id=${this.info_ente_id}`)
-        .subscribe(res => {
-          const r = <any>res;
-          if (res !== null && r.Type !== 'error') {
-            this.datos_persona = r;
-            this.admision.EstadoAdmision.Id = 2;
-            this.UpdateEstadoAdmision();
-          }
-        },
+      .subscribe(res => {
+        const r = <any>res;
+        if (res !== null && r.Type !== 'error') {
+          this.datos_persona = r;
+          this.admision.EstadoAdmision.Id = 2;
+          this.UpdateEstadoAdmision();
+        }
+      },
         (error: HttpErrorResponse) => {
           Swal({
             type: 'error',
@@ -320,20 +359,20 @@ export class PosgradoComponent implements OnInit, OnChanges {
 
   UpdateEstadoAdmision() {
     this.admisionesService.put('admision', this.admision, this.admision.Id)
-          .subscribe(res_ad => {
-            const r_ad = <any>res_ad;
-          if (res_ad !== null && r_ad.Type !== 'error') {
-            this.captureScreen();
-          }
-          },
-          (error_ad: HttpErrorResponse) => {
-            Swal({
-              type: 'error',
-              title: error_ad.status + '',
-              text: this.translate.instant('ERROR.' + error_ad.status),
-              confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-            });
+      .subscribe(res_ad => {
+        const r_ad = <any>res_ad;
+        if (res_ad !== null && r_ad.Type !== 'error') {
+          this.captureScreen();
+        }
+      },
+        (error_ad: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error_ad.status + '',
+            text: this.translate.instant('ERROR.' + error_ad.status),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
           });
+        });
   }
 
   public captureScreen() {

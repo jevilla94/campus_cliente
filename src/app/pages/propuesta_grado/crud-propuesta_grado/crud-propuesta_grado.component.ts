@@ -68,7 +68,7 @@ export class CrudPropuestaGradoComponent implements OnInit {
    }
 
   construirForm() {
-    this.formPropuestaGrado.titulo = this.translate.instant('GLOBAL.propuesta_grado');
+    // this.formPropuestaGrado.titulo = this.translate.instant('GLOBAL.propuesta_grado');
     this.formPropuestaGrado.btn = this.translate.instant('GLOBAL.guardar');
     for (let i = 0; i < this.formPropuestaGrado.campos.length; i++) {
       this.formPropuestaGrado.campos[i].label = this.translate.instant('GLOBAL.' + this.formPropuestaGrado.campos[i].label_i18n);
@@ -96,14 +96,23 @@ export class CrudPropuestaGradoComponent implements OnInit {
         .subscribe(res_ente => {
           this.admision_id = res_ente[0].Id;
           if (res_ente[0].Aspirante === this.ente_id.getEnte() ) {
-          this.admisionesService.get('propuesta/?query=Admision:' + this.admision_id)
-              .subscribe(res => {
-                const tempo = <any>res[0].Id
-                this.prop_id = tempo;
-                this.loadPropuestaGrado();
-              });
+            this.admisionesService.get('propuesta/?query=Admision:' + this.admision_id)
+                .subscribe(res => {
+                  const tempo = <any>res[0].Id
+                  this.prop_id = tempo;
+                  this.loadPropuestaGrado();
+                },
+                (error: HttpErrorResponse) => {
+                  Swal({
+                    type: 'error',
+                    title: error.status + '',
+                    text: this.translate.instant('ERROR.' + error.status),
+                    footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                      this.translate.instant('GLOBAL.propuesta'),
+                    confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                  });
+                });
           }else {
-            this.showToast('info', 'updated', 'Regargar pagina');
             Swal({
               type: 'warning',
               title: this.translate.instant('GLOBAL.warning'),
@@ -111,10 +120,22 @@ export class CrudPropuestaGradoComponent implements OnInit {
               confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
             });
           }
+        },
+        (error: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.propuesta') + '|' +
+              this.translate.instant('GLOBAL.admision'),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
         });
   }
 
   public loadPropuestaGrado(): void {
+    this.loading = true;
     if (this.prop_id !== undefined && this.prop_id !== 0 &&
       this.prop_id.toString() !== '') {
       this.admisionesService.get('propuesta/?query=id:' + this.prop_id)
@@ -134,13 +155,17 @@ export class CrudPropuestaGradoComponent implements OnInit {
                   this.FormatoProyecto = this.info_propuesta_grado.FormatoProyecto;
                   this.info_propuesta_grado.LineaInvestigacion = temp.LineaInvestigacion;
                   this.info_propuesta_grado.FormatoProyecto = filesResponse_2['FormatoProyecto'] + '';
+                  this.loading = false;
                 }
               },
-              (error_2: HttpErrorResponse) => {
+              (error: HttpErrorResponse) => {
                 Swal({
                   type: 'error',
-                  title: error_2.status + '',
-                  text: this.translate.instant('ERROR.' + error_2.status),
+                  title: error.status + '',
+                  text: this.translate.instant('ERROR.' + error.status),
+                  footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                    this.translate.instant('GLOBAL.propuesta') + '|' +
+                    this.translate.instant('GLOBAL.soporte_documento'),
                   confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                 });
               });
@@ -151,12 +176,15 @@ export class CrudPropuestaGradoComponent implements OnInit {
             type: 'error',
             title: error.status + '',
             text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.propuesta'),
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
           });
         });
     } else  {
       this.info_propuesta_grado = undefined;
       this.clean = !this.clean;
+      this.loading = false;
     }
   }
 
@@ -174,6 +202,7 @@ export class CrudPropuestaGradoComponent implements OnInit {
     Swal(opt)
     .then((willDelete) => {
       if (willDelete.value) {
+        this.loading = true;
         this.info_propuesta_grado = <any>propuestaGrado;
         const files = [];
         if (this.info_propuesta_grado.FormatoProyecto !== undefined) {
@@ -190,15 +219,20 @@ export class CrudPropuestaGradoComponent implements OnInit {
                     if (documentos_actualizados['FormatoProyecto'] !== undefined) {
                       this.info_propuesta_grado.FormatoProyecto = documentos_actualizados['FormatoProyecto'].url + '';
                     }
+                    this.loading = false;
                     this.loadPropuestaGrado();
                     this.eventChange.emit(true);
-                    this.showToast('info', 'updated', 'PropuestaGrado updated');
+                    this.showToast('info', this.translate.instant('GLOBAL.actualizar'),
+                      this.translate.instant('GLOBAL.propuesta') + ' ' +
+                      this.translate.instant('GLOBAL.confirmarActualizar'));
                   },
                   (error: HttpErrorResponse) => {
                     Swal({
                       type: 'error',
                       title: error.status + '',
                       text: this.translate.instant('ERROR.' + error.status),
+                      footer: this.translate.instant('GLOBAL.actualizar') + '-' +
+                        this.translate.instant('GLOBAL.propuesta'),
                       confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                     });
                   });
@@ -209,26 +243,32 @@ export class CrudPropuestaGradoComponent implements OnInit {
                   type: 'error',
                   title: error.status + '',
                   text: this.translate.instant('ERROR.' + error.status),
+                  footer: this.translate.instant('GLOBAL.actualizar') + '-' +
+                    this.translate.instant('GLOBAL.propuesta') + '|' +
+                    this.translate.instant('GLOBAL.soporte_documento'),
                   confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                 });
               });
-
         } else {
           this.info_propuesta_grado.FormatoProyecto = this.FormatoProyecto;
           this.admisionesService.put('propuesta', this.info_propuesta_grado, this.prop_id)
-                  .subscribe(res => {
-                    this.eventChange.emit(true);
-                    this.loadPropuestaGrado();
-                    this.showToast('info', 'updated', 'PropuestaGrado updated');
-                  },
-                  (error: HttpErrorResponse) => {
-                    Swal({
-                      type: 'error',
-                      title: error.status + '',
-                      text: this.translate.instant('ERROR.' + error.status),
-                      confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-                    });
-                  });
+            .subscribe(res => {
+              this.eventChange.emit(true);
+              this.loadPropuestaGrado();
+              this.showToast('info', this.translate.instant('GLOBAL.actualizar'),
+                this.translate.instant('GLOBAL.propuesta') + ' ' +
+                this.translate.instant('GLOBAL.confirmarActualizar'));
+            },
+            (error: HttpErrorResponse) => {
+              Swal({
+                type: 'error',
+                title: error.status + '',
+                text: this.translate.instant('ERROR.' + error.status),
+                footer: this.translate.instant('GLOBAL.actualizar') + '-' +
+                  this.translate.instant('GLOBAL.propuesta'),
+                confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+              });
+            });
         }
       }
     });
@@ -236,25 +276,26 @@ export class CrudPropuestaGradoComponent implements OnInit {
 
   createPropuestaGrado(propuestaGrado: any): void {
     const opt: any = {
-      title:  this.translate.instant('GLOBAL.crear'),
-      text: this.translate.instant('GLOBAL.create_propuesta'),
+      title: this.translate.instant('GLOBAL.crear'),
+      text: this.translate.instant('GLOBAL.crear') + '?',
       icon: 'warning',
-      confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+      buttons: true,
       dangerMode: true,
       showCancelButton: true,
+      confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+      cancelButtonText: this.translate.instant('GLOBAL.cancelar'),
     };
     Swal(opt)
     .then((willDelete) => {
+      this.loading = true;
       if (willDelete.value) {
         const files = []
         this.info_propuesta_grado = <PropuestaGrado>propuestaGrado;
-
         if (this.info_propuesta_grado.FormatoProyecto !== undefined) {
           files.push({
             nombre: this.autenticationService.getPayload().sub, key: 'FormatoProyecto',
-            file: this.info_propuesta_grado.FormatoProyecto, IdDocumento: 2});
+            file: this.info_propuesta_grado.FormatoProyecto, IdDocumento: 5});
         }
-
         this.nuxeoService.getDocumentos$(files, this.documentoService)
             .subscribe(response => {
               if (Object.keys(response).length === files.length) {
@@ -267,9 +308,11 @@ export class CrudPropuestaGradoComponent implements OnInit {
                   const r = <any>res
                     if (r !== null && r.Type !== 'error') {
                       this.info_propuesta_grado = <PropuestaGrado>res;
+                      this.loading = false;
                       this.eventChange.emit(true);
                       this.showToast('info', this.translate.instant('GLOBAL.crear'),
-                      this.translate.instant('GLOBAL.propuesta') + ' ' + this.translate.instant('GLOBAL.confirmarCrear'));
+                        this.translate.instant('GLOBAL.propuesta') + ' ' +
+                        this.translate.instant('GLOBAL.confirmarCrear'));
                     } else {
                       this.showToast('error', this.translate.instant('GLOBAL.error'),
                       this.translate.instant('GLOBAL.error'));
@@ -280,19 +323,24 @@ export class CrudPropuestaGradoComponent implements OnInit {
                     type: 'error',
                     title: error.status + '',
                     text: this.translate.instant('ERROR.' + error.status),
+                    footer: this.translate.instant('GLOBAL.crear') + '-' +
+                      this.translate.instant('GLOBAL.propuesta'),
                     confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                   });
                 });
               }
-            },
-            (error: HttpErrorResponse) => {
-              Swal({
-                type: 'error',
-                title: error.status + '',
-                text: this.translate.instant('ERROR.' + error.status),
-                confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-              });
-            })
+        },
+        (error: HttpErrorResponse) => {
+            Swal({
+              type: 'error',
+              title: error.status + '',
+              text: this.translate.instant('ERROR.' + error.status),
+              footer: this.translate.instant('GLOBAL.crear') + '-' +
+                this.translate.instant('GLOBAL.propuesta') + '|' +
+                this.translate.instant('GLOBAL.soporte_documento'),
+              confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+            });
+        });
       }
     });
   }

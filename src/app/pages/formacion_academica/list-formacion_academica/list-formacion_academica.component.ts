@@ -25,6 +25,7 @@ export class ListFormacionAcademicaComponent implements OnInit {
   @Output() eventChange = new EventEmitter();
   @Output('result') result: EventEmitter<any> = new EventEmitter();
 
+  loading: boolean;
   percentage: number;
 
   constructor(private translate: TranslateService,
@@ -38,6 +39,7 @@ export class ListFormacionAcademicaComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.cargarCampos();
     });
+    this.loading = false;
   }
 
   getPercentage(event) {
@@ -108,6 +110,7 @@ export class ListFormacionAcademicaComponent implements OnInit {
   }
 
   loadData(): void {
+    this.loading = true;
     this.campusMidService.get('formacion/formacionacademicaente/?Ente=' + this.userService.getEnte())
       .subscribe(res => {
         if (res !== null) {
@@ -133,6 +136,7 @@ export class ListFormacionAcademicaComponent implements OnInit {
                           const pais_info = <any>pais;
                           element.PaisUniversidad = pais_info.Nombre;
                           data_info.push(element);
+                          this.loading = false;
                           this.getPercentage(1);
                           this.source.load(data_info);
                         }
@@ -143,6 +147,7 @@ export class ListFormacionAcademicaComponent implements OnInit {
                           title: error.status + '',
                           text: this.translate.instant('ERROR.' + error.status),
                           footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                            this.translate.instant('GLOBAL.formacion_academica') + '|' +
                             this.translate.instant('GLOBAL.pais_universidad'),
                           confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                         });
@@ -155,6 +160,7 @@ export class ListFormacionAcademicaComponent implements OnInit {
                       title: error.status + '',
                       text: this.translate.instant('ERROR.' + error.status),
                       footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                        this.translate.instant('GLOBAL.formacion_academica') + '|' +
                         this.translate.instant('GLOBAL.nombre_universidad'),
                       confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                     });
@@ -167,6 +173,7 @@ export class ListFormacionAcademicaComponent implements OnInit {
                   title: error.status + '',
                   text: this.translate.instant('ERROR.' + error.status),
                   footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                    this.translate.instant('GLOBAL.formacion_academica') + '|' +
                     this.translate.instant('GLOBAL.programa_academico'),
                   confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                 });

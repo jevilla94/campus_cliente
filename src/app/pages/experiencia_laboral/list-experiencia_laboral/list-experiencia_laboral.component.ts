@@ -32,6 +32,7 @@ export class ListExperienciaLaboralComponent implements OnInit {
   @Output() eventChange = new EventEmitter();
   @Output('result') result: EventEmitter<any> = new EventEmitter();
 
+  loading: boolean;
   percentage: number;
 
   constructor(private translate: TranslateService, private toasterService: ToasterService,
@@ -41,6 +42,7 @@ export class ListExperienciaLaboralComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.cargarCampos();
     });
+    this.loading = false;
   }
 
   cargarCampos() {
@@ -94,6 +96,7 @@ export class ListExperienciaLaboralComponent implements OnInit {
   }
 
   loadData(): void {
+    this.loading = true;
      this.experienciaService.get('experiencia_laboral/?query=Persona:' + this.eid).subscribe(res => {
       if (res !== null) {
         this.data = <Array<any>>res;
@@ -102,27 +105,33 @@ export class ListExperienciaLaboralComponent implements OnInit {
             if (res !== null) {
               element.Organizacion = r[0];
             }
+            this.loading = false;
             this.getPercentage(1);
             this.source.load(this.data);
           },
           (error: HttpErrorResponse) => {
-            Swal({
-              type: 'error',
-              title: error.status + '',
-              text: this.translate.instant('ERROR.' + error.status),
-              confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-            });
+              Swal({
+                type: 'error',
+                title: error.status + '',
+                text: this.translate.instant('ERROR.' + error.status),
+                footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                  this.translate.instant('GLOBAL.experiencia_laboral') + '|' +
+                  this.translate.instant('GLOBAL.nombre_empresa'),
+                confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+              });
           });
         });
       }
     },
     (error: HttpErrorResponse) => {
-      Swal({
-        type: 'error',
-        title: error.status + '',
-        text: this.translate.instant('ERROR.' + error.status),
-        confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-      });
+        Swal({
+          type: 'error',
+          title: error.status + '',
+          text: this.translate.instant('ERROR.' + error.status),
+          footer: this.translate.instant('GLOBAL.cargar') + '-' +
+            this.translate.instant('GLOBAL.experiencia_laboral'),
+          confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+        });
     });
   }
 
@@ -185,12 +194,14 @@ export class ListExperienciaLaboralComponent implements OnInit {
             }
           },
           (error: HttpErrorResponse) => {
-            Swal({
-              type: 'error',
-              title: error.status + '',
-              text: this.translate.instant('ERROR.' + error.status),
-              confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-            });
+              Swal({
+                type: 'error',
+                title: error.status + '',
+                text: this.translate.instant('ERROR.' + error.status),
+                footer: this.translate.instant('GLOBAL.eliminar') + '-' +
+                  this.translate.instant('GLOBAL.experiencia_laboral'),
+                confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+              });
           });
         }
     });

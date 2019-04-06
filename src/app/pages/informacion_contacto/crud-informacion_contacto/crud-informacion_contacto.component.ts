@@ -43,6 +43,7 @@ export class CrudInformacionContactoComponent implements OnInit {
   datosPost: any;
   datosGet: any;
   datosPut: any;
+  loading: boolean;
 
   constructor(
     private translate: TranslateService,
@@ -58,6 +59,7 @@ export class CrudInformacionContactoComponent implements OnInit {
     });
     this.listService.findPais();
     this.loadLists();
+    this.loading = false;
   }
 
   construirForm() {
@@ -102,6 +104,9 @@ export class CrudInformacionContactoComponent implements OnInit {
             type: 'error',
             title: error.status + '',
             text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.informacion_contacto') + '|' +
+              this.translate.instant('GLOBAL.departamento_residencia'),
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
           });
         });
@@ -127,6 +132,9 @@ export class CrudInformacionContactoComponent implements OnInit {
             type: 'error',
             title: error.status + '',
             text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.informacion_contacto') + '|' +
+              this.translate.instant('GLOBAL.ciudad_residencia'),
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
           });
         });
@@ -144,6 +152,7 @@ export class CrudInformacionContactoComponent implements OnInit {
   }
 
   public loadInformacionContacto(): void {
+    this.loading = true;
     if (this.informacion_contacto_id !== undefined && this.informacion_contacto_id !== 0 &&
       this.informacion_contacto_id.toString() !== '') {
       this.denied_acces = false;
@@ -183,6 +192,7 @@ export class CrudInformacionContactoComponent implements OnInit {
 
             this.formInformacionContacto.campos[this.getIndexForm('DepartamentoResidencia')].opciones[0] = this.datosGet.UbicacionEnte[0].Lugar.DEPARTAMENTO;
             this.formInformacionContacto.campos[this.getIndexForm('CiudadResidencia')].opciones[0] = this.info_informacion_contacto.CiudadResidencia;
+            this.loading = false;
           }
         },
         (error: HttpErrorResponse) => {
@@ -190,6 +200,8 @@ export class CrudInformacionContactoComponent implements OnInit {
             type: 'error',
             title: error.status + '',
             text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.informacion_contacto'),
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
           });
         });
@@ -197,6 +209,7 @@ export class CrudInformacionContactoComponent implements OnInit {
       this.info_informacion_contacto = undefined;
       this.clean = !this.clean;
       this.denied_acces = false; //  no muestra el formulario a menos que se le pase un id del ente info_caracteristica_id
+      this.loading = false;
     }
   }
 
@@ -214,7 +227,8 @@ export class CrudInformacionContactoComponent implements OnInit {
     Swal(opt)
       .then((willDelete) => {
         if (willDelete.value) {
-          this.info_informacion_contacto = <InformacionContacto>informacionContacto;
+        this.loading = true;
+        this.info_informacion_contacto = <InformacionContacto>informacionContacto;
           this.datosPut = <InfoContactoPut>{
             Ente: (1 * this.info_informacion_contacto.Ente),
             ContactoEnte: [
@@ -250,16 +264,20 @@ export class CrudInformacionContactoComponent implements OnInit {
           this.campusMidService.put('persona/DatosContacto', this.datosPut)
             .subscribe(res => {
               this.loadInformacionContacto();
+              this.loading = false;
               this.eventChange.emit(true);
               this.showToast('info', this.translate.instant('GLOBAL.actualizar'),
                 this.translate.instant('GLOBAL.informacion_contacto') + ' ' +
                 this.translate.instant('GLOBAL.confirmarActualizar'));
             },
             (error: HttpErrorResponse) => {
+              this.loading = false;
               Swal({
                 type: 'error',
                 title: error.status + '',
                 text: this.translate.instant('ERROR.' + error.status),
+                footer: this.translate.instant('GLOBAL.actualizar') + '-' +
+                  this.translate.instant('GLOBAL.informacion_contacto'),
                 confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
               });
             });
@@ -280,6 +298,7 @@ export class CrudInformacionContactoComponent implements OnInit {
     };
     Swal(opt)
       .then((willDelete) => {
+        this.loading = true;
         if (willDelete.value) {
           this.info_informacion_contacto = <InformacionContacto>informacionContacto;
           this.info_informacion_contacto.Ente = this.informacion_contacto_id;
@@ -319,6 +338,7 @@ export class CrudInformacionContactoComponent implements OnInit {
           this.campusMidService.post('persona/DatosContacto/', this.datosPost)
             .subscribe(res => {
               this.info_informacion_contacto = <InformacionContacto>res;
+              this.loading = false;
               this.eventChange.emit(true);
               this.showToast('info', this.translate.instant('GLOBAL.crear'),
                 this.translate.instant('GLOBAL.informacion_contacto') + ' ' +
@@ -329,6 +349,8 @@ export class CrudInformacionContactoComponent implements OnInit {
                 type: 'error',
                 title: error.status + '',
                 text: this.translate.instant('ERROR.' + error.status),
+                footer: this.translate.instant('GLOBAL.crear') + '-' +
+                  this.translate.instant('GLOBAL.informacion_contacto'),
                 confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
               });
             });

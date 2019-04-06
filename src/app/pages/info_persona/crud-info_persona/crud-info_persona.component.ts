@@ -34,7 +34,6 @@ export class CrudInfoPersonaComponent implements OnInit {
   set name(info_persona_id: number) {
     this.info_persona_id = info_persona_id;
     this.loadInfoPersona();
-    // this.loadAdmision();
     console.info ('InfoPersonaId: ' + info_persona_id);
   }
 
@@ -103,72 +102,84 @@ export class CrudInfoPersonaComponent implements OnInit {
   }
 
   public loadAdmision(): void {
-    // if (this.admision_id !== undefined && this.admision_id !== 0) {
-    console.info (this.info_persona_id)
-      this.admisionesService.get('admision/?query=Aspirante:' + this.info_persona_id + ',periodo:1')
-        .subscribe(res => {
-          if (res !== null) {
-            this.info_admision = res[0];
-                if (res !== null ) {
-                  this.info_admision = <Admision>res[0];
-                  console.info('Estado Terminos: ' + this.info_admision.AceptaTerminos)
-                    this.aceptaTerminos = true;
-                }
-          }
+    // console.info (this.info_persona_id)
+    this.admisionesService.get('admision/?query=Aspirante:' + this.info_persona_id + ',periodo:1')
+      .subscribe(res => {
+        if (res !== null) {
+          this.info_admision = <Admision>res[0];
+          // console.info('Estado Terminos: ' + this.info_admision.AceptaTerminos)
+          this.aceptaTerminos = true;
+        }
+      },
+      (error: HttpErrorResponse) => {
+        Swal({
+          type: 'error',
+          title: error.status + '',
+          text: this.translate.instant('ERROR.' + error.status),
+          footer: this.translate.instant('GLOBAL.cargar') + '-' +
+            this.translate.instant('GLOBAL.info_persona') + '|' +
+            this.translate.instant('GLOBAL.admision'),
+          confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
         });
+      });
   }
 
   public loadInfoPersona(): void {
     this.loading = true;
     if (this.info_persona_id !== undefined && this.info_persona_id !== 0 &&
       this.info_persona_id.toString() !== '') {
-      this.campusMidService.get('persona/ConsultaPersona/?id=' + this.info_persona_id)
-        .subscribe(res => {
-          if (res !== null) {
-            const temp = <InfoPersona>res;
-            const files = []
-            if (temp.Foto + '' !== '0') {
-              files.push({ Id: temp.Foto, key: 'Foto' });
-            }
-            if (temp.SoporteDocumento + '' !== '0') {
-              files.push({ Id: temp.SoporteDocumento, key: 'SoporteDocumento' });
-            }
-            this.nuxeoService.getDocumentoById$(files, this.documentoService)
-              .subscribe(response => {
-                const filesResponse = <any>response;
-                if (Object.keys(filesResponse).length === files.length) {
-                  this.info_info_persona = temp;
-                  this.Foto = this.info_info_persona.Foto;
-                  this.SoporteDocumento = this.info_info_persona.SoporteDocumento;
-                  this.info_info_persona.Foto = filesResponse['Foto'] + '';
-                  this.info_info_persona.SoporteDocumento = filesResponse['SoporteDocumento'] + '';
-                  this.loading = false;
-                }
-              },
-              (error: HttpErrorResponse) => {
-                Swal({
-                  type: 'error',
-                  title: error.status + '',
-                  text: this.translate.instant('ERROR.' + error.status),
-                  confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+        this.campusMidService.get('persona/ConsultaPersona/?id=' + this.info_persona_id)
+          .subscribe(res => {
+            if (res !== null) {
+              const temp = <InfoPersona>res;
+              const files = []
+              if (temp.Foto + '' !== '0') {
+                files.push({ Id: temp.Foto, key: 'Foto' });
+              }
+              if (temp.SoporteDocumento + '' !== '0') {
+                files.push({ Id: temp.SoporteDocumento, key: 'SoporteDocumento' });
+              }
+              this.nuxeoService.getDocumentoById$(files, this.documentoService)
+                .subscribe(response => {
+                  const filesResponse = <any>response;
+                  if (Object.keys(filesResponse).length === files.length) {
+                    this.info_info_persona = temp;
+                    this.Foto = this.info_info_persona.Foto;
+                    this.SoporteDocumento = this.info_info_persona.SoporteDocumento;
+                    this.info_info_persona.Foto = filesResponse['Foto'] + '';
+                    this.info_info_persona.SoporteDocumento = filesResponse['SoporteDocumento'] + '';
+                    this.loading = false;
+                  }
+                },
+                (error: HttpErrorResponse) => {
+                  Swal({
+                    type: 'error',
+                    title: error.status + '',
+                    text: this.translate.instant('ERROR.' + error.status),
+                    footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                      this.translate.instant('GLOBAL.info_persona') + '|' +
+                      this.translate.instant('GLOBAL.soporte_documento'),
+                    confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                  });
                 });
-              });
-          }
-        },
-        (error: HttpErrorResponse) => {
-          Swal({
-            type: 'error',
-            title: error.status + '',
-            text: this.translate.instant('ERROR.' + error.status),
-            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+            }
+          },
+          (error: HttpErrorResponse) => {
+            Swal({
+              type: 'error',
+              title: error.status + '',
+              text: this.translate.instant('ERROR.' + error.status),
+              footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                this.translate.instant('GLOBAL.info_persona'),
+              confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+            });
           });
-        });
     } else {
       this.info_info_persona = undefined
       this.clean = !this.clean;
       this.loading = false;
-  }
-  this.loadAdmision()
+    }
+    this.loadAdmision();
   }
 
   updateInfoPersona(infoPersona: any): void {
@@ -221,6 +232,8 @@ export class CrudInfoPersonaComponent implements OnInit {
                         type: 'error',
                         title: error.status + '',
                         text: this.translate.instant('ERROR.' + error.status),
+                        footer: this.translate.instant('GLOBAL.actualizar') + '-' +
+                          this.translate.instant('GLOBAL.info_persona'),
                         confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                       });
                     });
@@ -231,11 +244,14 @@ export class CrudInfoPersonaComponent implements OnInit {
                   type: 'error',
                   title: error.status + '',
                   text: this.translate.instant('ERROR.' + error.status),
+                  footer: this.translate.instant('GLOBAL.actualizar') + '-' +
+                    this.translate.instant('GLOBAL.info_persona') + '|' +
+                    this.translate.instant('GLOBAL.soporte_documento'),
                   confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                 });
               });
           } else {
-            console.info(this.info_info_persona);
+            // console.info(this.info_info_persona);
             this.info_info_persona.Foto = this.Foto;
             this.info_info_persona.SoporteDocumento = this.SoporteDocumento;
             this.campusMidService.put('persona/ActualizarPersona', this.info_info_persona)
@@ -252,6 +268,8 @@ export class CrudInfoPersonaComponent implements OnInit {
                   type: 'error',
                   title: error.status + '',
                   text: this.translate.instant('ERROR.' + error.status),
+                  footer: this.translate.instant('GLOBAL.actualizar') + '-' +
+                    this.translate.instant('GLOBAL.info_persona'),
                   confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                 });
               });
@@ -264,12 +282,13 @@ export class CrudInfoPersonaComponent implements OnInit {
   createInfoPersona(infoPersona: any): void {
     const opt: any = {
       title: this.translate.instant('GLOBAL.crear'),
-       // text: this.translate.instant('GLOBAL.crear') + '?',
-       type: 'success',
-       showConfirmButton: true,
-       //   timer: 1500,
-       //   buttons: true,
-       confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+      text: this.translate.instant('GLOBAL.crear') + '?',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+      showCancelButton: true,
+      confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+      cancelButtonText: this.translate.instant('GLOBAL.cancelar'),
     };
     Swal(opt)
       .then((willDelete) => {
@@ -277,7 +296,7 @@ export class CrudInfoPersonaComponent implements OnInit {
         if (willDelete.value) {
           const files = []
           this.info_info_persona = <any>infoPersona;
-          console.info(this.info_info_persona);
+          // console.info(this.info_info_persona);
           if (this.info_info_persona.Foto.file !== undefined) {
             files.push({
               nombre: this.autenticationService.getPayload().sub, key: 'Foto',
@@ -299,25 +318,26 @@ export class CrudInfoPersonaComponent implements OnInit {
                   this.info_info_persona.SoporteDocumento = this.filesUp['SoporteDocumento'].Id;
                 }
                 this.info_info_persona.Usuario = this.autenticationService.getPayload().sub;
-                console.info(this.info_info_persona);
+                // console.info(this.info_info_persona);
                 this.campusMidService.post('persona/GuardarPersona', this.info_info_persona)
                   .subscribe(res => {
                     const r = <any>res
                     if (r !== null && r.Type !== 'error') {
-                      this.eventChange.emit(true);
                       this.info_persona_id = r.Body.Ente;
                       this.createAdmision(this.info_persona_id);
                       this.loadInfoPersona();
                       this.loading = false;
+                      this.eventChange.emit(true);
                       this.showToast('info', this.translate.instant('GLOBAL.crear'),
-                      this.translate.instant('GLOBAL.info_persona') + ' ' + this.translate.instant('GLOBAL.confirmarCrear'));
+                        this.translate.instant('GLOBAL.info_persona') + ' ' +
+                        this.translate.instant('GLOBAL.confirmarCrear'));
                     } else {
                       this.showToast('error', this.translate.instant('GLOBAL.error'),
                       this.translate.instant('GLOBAL.error'));
                     }
                   },
                   (error: HttpErrorResponse) => {
-                    const usu = window.localStorage.getItem('usuario').toString()
+                    const usu = window.localStorage.getItem('usuario').toString();
                     this.personaService.get(`persona?query=Usuario:${usu}`)
                     .subscribe(res_usu => {
                       const r_usu = <any>res_usu;
@@ -326,7 +346,7 @@ export class CrudInfoPersonaComponent implements OnInit {
                         .subscribe(res_2 => {
                           const r_2 = <any>res_2;
                           if (res_2 !== null && r_2.Type !== 'error') {
-                            console.info(`ya existe esta admision`);
+                            console.info('Ya existe esta admision');
                           } else {
                             console.info(`aun no existe una admision`);
                             this.info_persona_id =  res_usu[0].Ente;
@@ -338,10 +358,12 @@ export class CrudInfoPersonaComponent implements OnInit {
                             type: 'error',
                             title: error_1.status + '',
                             text: this.translate.instant('ERROR.' + error_1.status),
+                            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                              this.translate.instant('GLOBAL.info_persona') + '|' +
+                              this.translate.instant('GLOBAL.admision'),
                             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                           });
                         });
-
                       }
                     },
                     (error_2: HttpErrorResponse) => {
@@ -349,6 +371,9 @@ export class CrudInfoPersonaComponent implements OnInit {
                         type: 'error',
                         title: error_2.status + '',
                         text: this.translate.instant('ERROR.' + error_2.status),
+                        footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                          this.translate.instant('GLOBAL.info_persona') + '|' +
+                          this.translate.instant('GLOBAL.info_persona'),
                         confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                       });
                     });
@@ -356,6 +381,8 @@ export class CrudInfoPersonaComponent implements OnInit {
                       type: 'error',
                       title: error.status + '',
                       text: this.translate.instant('ERROR.' + error.status),
+                      footer: this.translate.instant('GLOBAL.crear') + '-' +
+                        this.translate.instant('GLOBAL.info_persona'),
                       confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                     });
                   });
@@ -366,9 +393,12 @@ export class CrudInfoPersonaComponent implements OnInit {
                 type: 'error',
                 title: error.status + '',
                 text: this.translate.instant('ERROR.' + error.status),
+                footer: this.translate.instant('GLOBAL.crear') + '-' +
+                  this.translate.instant('GLOBAL.info_persona') + '|' +
+                  this.translate.instant('GLOBAL.soporte_documento'),
                 confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
               });
-            })
+            });
         }
       });
   }
@@ -391,18 +421,17 @@ export class CrudInfoPersonaComponent implements OnInit {
   // }
 
   validarForm(event) {
-    // this.loadAdmision();
     if (event.valid) {
       if (this.info_admision === undefined) {
-      // if (this.aceptaTerminos !== true) {
+        // if (this.aceptaTerminos !== true) {
         this.validarTerminos(event);
       } else {
-          if (this.info_admision.AceptaTerminos !== true) {
-            this.validarTerminos(event);
-            this.loadAdmision();
-          }else {
-             this.updateInfoPersona(event.data.InfoPersona)
-           }
+        if (this.info_admision.AceptaTerminos !== true) {
+          this.validarTerminos(event);
+          this.loadAdmision();
+        }else {
+          this.updateInfoPersona(event.data.InfoPersona)
+        }
       }
     }
   }
@@ -445,6 +474,7 @@ export class CrudInfoPersonaComponent implements OnInit {
         //     }
     });
   }
+
   createAdmision(ente_id): void {
     // this.loadInfoPersona();
     console.info(ente_id);

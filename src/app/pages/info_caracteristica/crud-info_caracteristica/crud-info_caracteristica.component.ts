@@ -40,6 +40,7 @@ export class CrudInfoCaracteristicaComponent implements OnInit {
   departamentoSeleccionado: any;
   clean: boolean;
   denied_acces: boolean = false;
+  loading: boolean;
 
   constructor(
     private translate: TranslateService,
@@ -53,11 +54,11 @@ export class CrudInfoCaracteristicaComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.construirForm();
     });
-
     this.listService.findPais();
     this.listService.findGrupoEtnico();
     this.listService.findTipoDiscapacidad();
     this.loadLists();
+    this.loading = false;
    }
 
   construirForm() {
@@ -102,6 +103,9 @@ export class CrudInfoCaracteristicaComponent implements OnInit {
               type: 'error',
               title: error.status + '',
               text: this.translate.instant('ERROR.' + error.status),
+              footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                this.translate.instant('GLOBAL.info_caracteristica') + '|' +
+                this.translate.instant('GLOBAL.departamento_nacimiento'),
               confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
             });
           });
@@ -127,6 +131,9 @@ export class CrudInfoCaracteristicaComponent implements OnInit {
               type: 'error',
               title: error.status + '',
               text: this.translate.instant('ERROR.' + error.status),
+              footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                this.translate.instant('GLOBAL.info_caracteristica') + '|' +
+                this.translate.instant('GLOBAL.ciudad_nacimiento'),
               confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
             });
           });
@@ -144,6 +151,7 @@ export class CrudInfoCaracteristicaComponent implements OnInit {
   }
 
   public loadInfoCaracteristica(): void {
+    this.loading = true;
     if (this.info_caracteristica_id !== undefined && this.info_caracteristica_id !== 0 &&
       this.info_caracteristica_id.toString() !== '') {
       this.denied_acces = false;
@@ -163,6 +171,7 @@ export class CrudInfoCaracteristicaComponent implements OnInit {
             this.info_info_caracteristica.Lugar = this.datosGet.Lugar[0].Lugar.CIUDAD;
             this.formInfoCaracteristica.campos[this.getIndexForm('DepartamentoNacimiento')].opciones[0] = this.info_info_caracteristica.DepartamentoNacimiento;
             this.formInfoCaracteristica.campos[ this.getIndexForm('Lugar') ].opciones[0] = this.info_info_caracteristica.Lugar;
+            this.loading = false;
           }
         },
         (error: HttpErrorResponse) => {
@@ -170,6 +179,8 @@ export class CrudInfoCaracteristicaComponent implements OnInit {
             type: 'error',
             title: error.status + '',
             text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.info_caracteristica'),
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
           });
         });
@@ -177,6 +188,7 @@ export class CrudInfoCaracteristicaComponent implements OnInit {
       this.info_info_caracteristica = undefined;
       this.clean = !this.clean;
       this.denied_acces = false; // no muestra el formulario a menos que se le pase un id del ente info_caracteristica_id
+      this.loading = false;
     }
   }
 
@@ -194,20 +206,25 @@ export class CrudInfoCaracteristicaComponent implements OnInit {
     Swal(opt)
     .then((willDelete) => {
       if (willDelete.value) {
+        this.loading = true;
         this.info_info_caracteristica = <InfoCaracteristica>infoCaracteristica;
         this.campusMidService.put('persona/DatosComplementarios', this.info_info_caracteristica)
           .subscribe(res => {
             this.loadInfoCaracteristica();
+            this.loading = false;
             this.eventChange.emit(true);
             this.showToast('info', this.translate.instant('GLOBAL.actualizar'),
-            this.translate.instant('GLOBAL.info_caracteristica') + ' ' +
-            this.translate.instant('GLOBAL.confirmarActualizar'));
+              this.translate.instant('GLOBAL.info_caracteristica') + ' ' +
+              this.translate.instant('GLOBAL.confirmarActualizar'));
         },
         (error: HttpErrorResponse) => {
+          this.loading = false;
           Swal({
             type: 'error',
             title: error.status + '',
             text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.actualizar') + '-' +
+              this.translate.instant('GLOBAL.info_caracteristica'),
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
           });
         });
@@ -228,6 +245,7 @@ export class CrudInfoCaracteristicaComponent implements OnInit {
     };
     Swal(opt)
     .then((willDelete) => {
+      this.loading = true;
       if (willDelete.value) {
         this.info_info_caracteristica = <InfoCaracteristica>infoCaracteristica;
         this.info_info_caracteristica.TipoRelacionUbicacionEnte = 1;
@@ -235,16 +253,19 @@ export class CrudInfoCaracteristicaComponent implements OnInit {
         this.campusMidService.post('persona/DatosComplementarios', this.info_info_caracteristica)
           .subscribe(res => {
             this.info_info_caracteristica = <InfoCaracteristica>res;
+            this.loading = false;
             this.eventChange.emit(true);
             this.showToast('info', this.translate.instant('GLOBAL.crear'),
-            this.translate.instant('GLOBAL.info_caracteristica') + ' ' +
-            this.translate.instant('GLOBAL.confirmarCrear'));
+              this.translate.instant('GLOBAL.info_caracteristica') + ' ' +
+              this.translate.instant('GLOBAL.confirmarCrear'));
         },
         (error: HttpErrorResponse) => {
           Swal({
             type: 'error',
             title: error.status + '',
             text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.crear') + '-' +
+              this.translate.instant('GLOBAL.info_caracteristica'),
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
           });
         });
