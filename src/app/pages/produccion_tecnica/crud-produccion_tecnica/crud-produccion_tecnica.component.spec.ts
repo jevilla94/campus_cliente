@@ -11,9 +11,9 @@ describe('CrudProduccionTecnicaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CrudProduccionTecnicaComponent ],
+      declarations: [CrudProduccionTecnicaComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

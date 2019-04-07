@@ -21,10 +21,10 @@ const routes: Routes = [{
 
 @NgModule({
   imports: [
-      RouterModule.forChild(routes),
+    RouterModule.forChild(routes),
   ],
   exports: [
-      RouterModule,
+    RouterModule,
   ],
 })
 

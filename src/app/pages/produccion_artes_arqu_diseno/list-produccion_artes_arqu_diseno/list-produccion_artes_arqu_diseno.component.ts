@@ -11,7 +11,7 @@ import 'style-loader!angular2-toaster/toaster.css';
   selector: 'ngx-list-produccion-artes-arqu-diseno',
   templateUrl: './list-produccion_artes_arqu_diseno.component.html',
   styleUrls: ['./list-produccion_artes_arqu_diseno.component.scss'],
-  })
+})
 export class ListProduccionArtesArquDisenoComponent implements OnInit {
   uid: number;
   cambiotab: boolean = false;
@@ -97,7 +97,7 @@ export class ListProduccionArtesArquDisenoComponent implements OnInit {
       if (res !== null) {
         const data = <Array<any>>res;
         this.source.load(data);
-          }
+      }
     });
   }
 
@@ -124,17 +124,17 @@ export class ListProduccionArtesArquDisenoComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
+      .then((willDelete) => {
 
-      if (willDelete.value) {
-        this.produccionAcademicaService.delete('produccion_artes_arqu_diseno/', event.data).subscribe(res => {
-          if (res !== null) {
-            this.loadData();
-            this.showToast('info', 'deleted', 'ProduccionArtesArquDiseno deleted');
+        if (willDelete.value) {
+          this.produccionAcademicaService.delete('produccion_artes_arqu_diseno/', event.data).subscribe(res => {
+            if (res !== null) {
+              this.loadData();
+              this.showToast('info', 'deleted', 'ProduccionArtesArquDiseno deleted');
             }
-         });
-      }
-    });
+          });
+        }
+      });
   }
 
   activetab(): void {

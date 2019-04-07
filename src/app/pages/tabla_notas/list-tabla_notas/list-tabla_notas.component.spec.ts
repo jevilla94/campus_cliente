@@ -11,9 +11,9 @@ describe('ListTablaNotasComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListTablaNotasComponent ],
+      declarations: [ListTablaNotasComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

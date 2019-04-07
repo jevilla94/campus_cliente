@@ -4,8 +4,6 @@ import { OtroDocumentoComponent } from './otro_documento.component';
 import { ListOtroDocumentoComponent } from './list-otro_documento/list-otro_documento.component';
 import { CrudOtroDocumentoComponent } from './crud-otro_documento/crud-otro_documento.component';
 
-
-
 const routes: Routes = [{
   path: '',
   component: OtroDocumentoComponent,
@@ -20,10 +18,10 @@ const routes: Routes = [{
 
 @NgModule({
   imports: [
-      RouterModule.forChild(routes),
+    RouterModule.forChild(routes),
   ],
   exports: [
-      RouterModule,
+    RouterModule,
   ],
 })
 

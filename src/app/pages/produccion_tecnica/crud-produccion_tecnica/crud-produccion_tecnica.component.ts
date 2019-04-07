@@ -46,7 +46,7 @@ export class CrudProduccionTecnicaComponent implements OnInit {
     });
     this.loadOptionsTipoproducciontecnica();
     this.loadOptionsCiudadPublicacion();
-   }
+  }
 
   construirForm() {
     this.formProduccionTecnica.titulo = this.translate.instant('GLOBAL.produccion_tecnica');
@@ -63,24 +63,24 @@ export class CrudProduccionTecnicaComponent implements OnInit {
 
   loadOptionsTipoproducciontecnica(): void {
     let tipoproducciontecnica: Array<any> = [];
-      this.produccionAcademicaService.get('tipo_produccion_tecnica/?limit=0')
-        .subscribe(res => {
-          if (res !== null) {
-            tipoproducciontecnica = <Array<TipoProduccionTecnica>>res;
-          }
-          this.formProduccionTecnica.campos[ this.getIndexForm('Tipoproducciontecnica') ].opciones = tipoproducciontecnica;
-        });
+    this.produccionAcademicaService.get('tipo_produccion_tecnica/?limit=0')
+      .subscribe(res => {
+        if (res !== null) {
+          tipoproducciontecnica = <Array<TipoProduccionTecnica>>res;
+        }
+        this.formProduccionTecnica.campos[this.getIndexForm('Tipoproducciontecnica')].opciones = tipoproducciontecnica;
+      });
   }
 
   loadOptionsCiudadPublicacion(): void {
     let ciudadPublicacion: Array<any> = [];
-      this.ubicacionesService.get('lugar/?query=TipoLugar.Id:2')
-        .subscribe(res => {
-          if (res !== null) {
-            ciudadPublicacion = <Array<Lugar>>res;
-          }
-          this.formProduccionTecnica.campos[this.getIndexForm('Ubicacion')].opciones = ciudadPublicacion;
-        },
+    this.ubicacionesService.get('lugar/?query=TipoLugar.Id:2')
+      .subscribe(res => {
+        if (res !== null) {
+          ciudadPublicacion = <Array<Lugar>>res;
+        }
+        this.formProduccionTecnica.campos[this.getIndexForm('Ubicacion')].opciones = ciudadPublicacion;
+      },
         (error: HttpErrorResponse) => {
           Swal({
             type: 'error',
@@ -110,7 +110,7 @@ export class CrudProduccionTecnicaComponent implements OnInit {
             this.info_produccion_tecnica = <ProduccionTecnica>res[0];
           }
         });
-    } else  {
+    } else {
       this.info_produccion_tecnica = undefined;
       this.clean = !this.clean;
     }
@@ -127,17 +127,17 @@ export class CrudProduccionTecnicaComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
-      if (willDelete.value) {
-        this.info_produccion_tecnica = <ProduccionTecnica>produccionTecnica;
-        this.produccionAcademicaService.put('produccion_tecnica', this.info_produccion_tecnica)
-          .subscribe(res => {
-            this.loadProduccionTecnica();
-            this.eventChange.emit(true);
-            this.showToast('info', 'updated', 'ProduccionTecnica updated');
-          });
-      }
-    });
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.info_produccion_tecnica = <ProduccionTecnica>produccionTecnica;
+          this.produccionAcademicaService.put('produccion_tecnica', this.info_produccion_tecnica)
+            .subscribe(res => {
+              this.loadProduccionTecnica();
+              this.eventChange.emit(true);
+              this.showToast('info', 'updated', 'ProduccionTecnica updated');
+            });
+        }
+      });
   }
 
   createProduccionTecnica(produccionTecnica: any): void {
@@ -150,18 +150,18 @@ export class CrudProduccionTecnicaComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
-      if (willDelete.value) {
-        this.info_produccion_tecnica = <ProduccionTecnica>produccionTecnica;
-        this.info_produccion_tecnica.Persona = this.user.getEnte();
-        this.produccionAcademicaService.post('produccion_tecnica', this.info_produccion_tecnica)
-          .subscribe(res => {
-            this.info_produccion_tecnica = <ProduccionTecnica>res;
-            this.eventChange.emit(true);
-            this.showToast('info', 'created', 'ProduccionTecnica created');
-          });
-      }
-    });
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.info_produccion_tecnica = <ProduccionTecnica>produccionTecnica;
+          this.info_produccion_tecnica.Persona = this.user.getEnte();
+          this.produccionAcademicaService.post('produccion_tecnica', this.info_produccion_tecnica)
+            .subscribe(res => {
+              this.info_produccion_tecnica = <ProduccionTecnica>res;
+              this.eventChange.emit(true);
+              this.showToast('info', 'created', 'ProduccionTecnica created');
+            });
+        }
+      });
   }
 
   ngOnInit() {

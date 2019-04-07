@@ -4,8 +4,6 @@ import { OtraPublicacionComponent } from './otra_publicacion.component';
 import { ListOtraPublicacionComponent } from './list-otra_publicacion/list-otra_publicacion.component';
 import { CrudOtraPublicacionComponent } from './crud-otra_publicacion/crud-otra_publicacion.component';
 
-
-
 const routes: Routes = [{
   path: '',
   component: OtraPublicacionComponent,
@@ -20,10 +18,10 @@ const routes: Routes = [{
 
 @NgModule({
   imports: [
-      RouterModule.forChild(routes),
+    RouterModule.forChild(routes),
   ],
   exports: [
-      RouterModule,
+    RouterModule,
   ],
 })
 

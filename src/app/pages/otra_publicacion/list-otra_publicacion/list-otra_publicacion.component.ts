@@ -11,7 +11,7 @@ import 'style-loader!angular2-toaster/toaster.css';
   selector: 'ngx-list-otra-publicacion',
   templateUrl: './list-otra_publicacion.component.html',
   styleUrls: ['./list-otra_publicacion.component.scss'],
-  })
+})
 export class ListOtraPublicacionComponent implements OnInit {
   uid: number;
   cambiotab: boolean = false;
@@ -97,7 +97,7 @@ export class ListOtraPublicacionComponent implements OnInit {
       if (res !== null) {
         const data = <Array<any>>res;
         this.source.load(data);
-          }
+      }
     });
   }
 
@@ -124,17 +124,17 @@ export class ListOtraPublicacionComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
+      .then((willDelete) => {
 
-      if (willDelete.value) {
-        this.produccionAcademicaService.delete('otra_publicacion/', event.data).subscribe(res => {
-          if (res !== null) {
-            this.loadData();
-            this.showToast('info', 'deleted', 'OtraPublicacion deleted');
+        if (willDelete.value) {
+          this.produccionAcademicaService.delete('otra_publicacion/', event.data).subscribe(res => {
+            if (res !== null) {
+              this.loadData();
+              this.showToast('info', 'deleted', 'OtraPublicacion deleted');
             }
-         });
-      }
-    });
+          });
+        }
+      });
   }
 
   activetab(): void {

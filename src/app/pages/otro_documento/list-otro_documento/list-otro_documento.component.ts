@@ -11,7 +11,7 @@ import 'style-loader!angular2-toaster/toaster.css';
   selector: 'ngx-list-otro-documento',
   templateUrl: './list-otro_documento.component.html',
   styleUrls: ['./list-otro_documento.component.scss'],
-  })
+})
 export class ListOtroDocumentoComponent implements OnInit {
   uid: number;
   cambiotab: boolean = false;
@@ -111,7 +111,7 @@ export class ListOtroDocumentoComponent implements OnInit {
       if (res !== null) {
         const data = <Array<any>>res;
         this.source.load(data);
-          }
+      }
     });
   }
 
@@ -138,17 +138,17 @@ export class ListOtroDocumentoComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
+      .then((willDelete) => {
 
-      if (willDelete.value) {
-        this.produccionAcademicaService.delete('otro_documento/', event.data).subscribe(res => {
-          if (res !== null) {
-            this.loadData();
-            this.showToast('info', 'deleted', 'OtroDocumento deleted');
+        if (willDelete.value) {
+          this.produccionAcademicaService.delete('otro_documento/', event.data).subscribe(res => {
+            if (res !== null) {
+              this.loadData();
+              this.showToast('info', 'deleted', 'OtroDocumento deleted');
             }
-         });
-      }
-    });
+          });
+        }
+      });
   }
 
   activetab(): void {

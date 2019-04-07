@@ -4,8 +4,6 @@ import { ProduccionArtesArquDisenoComponent } from './produccion_artes_arqu_dise
 import { ListProduccionArtesArquDisenoComponent } from './list-produccion_artes_arqu_diseno/list-produccion_artes_arqu_diseno.component';
 import { CrudProduccionArtesArquDisenoComponent } from './crud-produccion_artes_arqu_diseno/crud-produccion_artes_arqu_diseno.component';
 
-
-
 const routes: Routes = [{
   path: '',
   component: ProduccionArtesArquDisenoComponent,
@@ -20,10 +18,10 @@ const routes: Routes = [{
 
 @NgModule({
   imports: [
-      RouterModule.forChild(routes),
+    RouterModule.forChild(routes),
   ],
   exports: [
-      RouterModule,
+    RouterModule,
   ],
 })
 

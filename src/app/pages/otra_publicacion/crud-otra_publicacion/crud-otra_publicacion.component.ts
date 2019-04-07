@@ -41,7 +41,7 @@ export class CrudOtraPublicacionComponent implements OnInit {
       this.construirForm();
     });
     this.loadOptionsTipo();
-   }
+  }
 
   construirForm() {
     this.formOtraPublicacion.titulo = this.translate.instant('GLOBAL.otra_publicacion');
@@ -58,13 +58,13 @@ export class CrudOtraPublicacionComponent implements OnInit {
 
   loadOptionsTipo(): void {
     let tipo: Array<any> = [];
-      this.produccionAcademicaService.get('tipo_otra_publicacion/?limit=0')
-        .subscribe(res => {
-          if (res !== null) {
-            tipo = <Array<TipoOtraPublicacion>>res;
-          }
-          this.formOtraPublicacion.campos[ this.getIndexForm('Tipo') ].opciones = tipo;
-        });
+    this.produccionAcademicaService.get('tipo_otra_publicacion/?limit=0')
+      .subscribe(res => {
+        if (res !== null) {
+          tipo = <Array<TipoOtraPublicacion>>res;
+        }
+        this.formOtraPublicacion.campos[this.getIndexForm('Tipo')].opciones = tipo;
+      });
   }
 
   getIndexForm(nombre: String): number {
@@ -86,7 +86,7 @@ export class CrudOtraPublicacionComponent implements OnInit {
             this.info_otra_publicacion = <OtraPublicacion>res[0];
           }
         });
-    } else  {
+    } else {
       this.info_otra_publicacion = undefined;
       this.clean = !this.clean;
     }
@@ -103,17 +103,17 @@ export class CrudOtraPublicacionComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
-      if (willDelete.value) {
-        this.info_otra_publicacion = <OtraPublicacion>otraPublicacion;
-        this.produccionAcademicaService.put('otra_publicacion', this.info_otra_publicacion)
-          .subscribe(res => {
-            this.loadOtraPublicacion();
-            this.eventChange.emit(true);
-            this.showToast('info', 'updated', 'OtraPublicacion updated');
-          });
-      }
-    });
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.info_otra_publicacion = <OtraPublicacion>otraPublicacion;
+          this.produccionAcademicaService.put('otra_publicacion', this.info_otra_publicacion)
+            .subscribe(res => {
+              this.loadOtraPublicacion();
+              this.eventChange.emit(true);
+              this.showToast('info', 'updated', 'OtraPublicacion updated');
+            });
+        }
+      });
   }
 
   createOtraPublicacion(otraPublicacion: any): void {
@@ -126,18 +126,18 @@ export class CrudOtraPublicacionComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
-      if (willDelete.value) {
-        this.info_otra_publicacion = <OtraPublicacion>otraPublicacion;
-        this.info_otra_publicacion.Persona = this.users.getEnte();
-        this.produccionAcademicaService.post('otra_publicacion', this.info_otra_publicacion)
-          .subscribe(res => {
-            this.info_otra_publicacion = <OtraPublicacion>res;
-            this.eventChange.emit(true);
-            this.showToast('info', 'created', 'OtraPublicacion created');
-          });
-      }
-    });
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.info_otra_publicacion = <OtraPublicacion>otraPublicacion;
+          this.info_otra_publicacion.Persona = this.users.getEnte();
+          this.produccionAcademicaService.post('otra_publicacion', this.info_otra_publicacion)
+            .subscribe(res => {
+              this.info_otra_publicacion = <OtraPublicacion>res;
+              this.eventChange.emit(true);
+              this.showToast('info', 'created', 'OtraPublicacion created');
+            });
+        }
+      });
   }
 
   ngOnInit() {

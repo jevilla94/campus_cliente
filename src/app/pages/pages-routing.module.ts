@@ -44,8 +44,10 @@ const routes: Routes = [{
       path: 'tipo_proyecto',
       loadChildren: './tipo_proyecto/tipo_proyecto.module#TipoProyectoModule',
     },
-    { path: 'detalleInfo/:id',
-      component: DetalleAdmisionComponent },
+    {
+      path: 'detalleInfo/:id',
+      component: DetalleAdmisionComponent,
+    },
     {
       path: '',
       redirectTo: 'dashboard',

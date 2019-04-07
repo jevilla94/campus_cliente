@@ -12,7 +12,7 @@ import 'style-loader!angular2-toaster/toaster.css';
   selector: 'ngx-list-libro',
   templateUrl: './list-libro.component.html',
   styleUrls: ['./list-libro.component.scss'],
-  })
+})
 export class ListLibroComponent implements OnInit {
   uid: number;
   cambiotab: boolean = false;
@@ -143,21 +143,21 @@ export class ListLibroComponent implements OnInit {
 
   loadData(): void {
     this.produccionAcademicaService.get('libro/?query=persona:' + this.userService.getEnte())
-    .subscribe(res => {
-      if (res !== null) {
-        const data = <Array<any>>res;
-        this.source.load(data);
+      .subscribe(res => {
+        if (res !== null) {
+          const data = <Array<any>>res;
+          this.source.load(data);
 
-          }
-    },
-    (error: HttpErrorResponse) => {
-      Swal({
-        type: 'error',
-        title: error.status + '',
-        text: this.translate.instant('ERROR.' + error.status),
-        confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-      });
-    });
+        }
+      },
+        (error: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
+        });
   }
 
   ngOnInit() {
@@ -183,17 +183,17 @@ export class ListLibroComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
+      .then((willDelete) => {
 
-      if (willDelete.value) {
-        this.produccionAcademicaService.delete('libro/', event.data).subscribe(res => {
-          if (res !== null) {
-            this.loadData();
-            this.showToast('info', 'deleted', 'Libro deleted');
+        if (willDelete.value) {
+          this.produccionAcademicaService.delete('libro/', event.data).subscribe(res => {
+            if (res !== null) {
+              this.loadData();
+              this.showToast('info', 'deleted', 'Libro deleted');
             }
-         });
-      }
-    });
+          });
+        }
+      });
   }
 
   activetab(): void {

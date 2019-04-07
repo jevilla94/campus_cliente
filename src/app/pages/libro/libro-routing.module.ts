@@ -4,8 +4,6 @@ import { LibroComponent } from './libro.component';
 import { ListLibroComponent } from './list-libro/list-libro.component';
 import { CrudLibroComponent } from './crud-libro/crud-libro.component';
 
-
-
 const routes: Routes = [{
   path: '',
   component: LibroComponent,
@@ -20,10 +18,10 @@ const routes: Routes = [{
 
 @NgModule({
   imports: [
-      RouterModule.forChild(routes),
+    RouterModule.forChild(routes),
   ],
   exports: [
-      RouterModule,
+    RouterModule,
   ],
 })
 

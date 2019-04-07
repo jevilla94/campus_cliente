@@ -61,7 +61,7 @@ export class CrudLibroComponent implements OnInit {
     this.activarTituloCapitulo = false;
     // console.info('EnteActual: ' + this.ente);
 
-   }
+  }
 
   construirForm() {
     this.formLibro.titulo = this.translate.instant('GLOBAL.libro');
@@ -78,43 +78,43 @@ export class CrudLibroComponent implements OnInit {
 
   loadOptionsTipopublicacion(): void {
     let tipopublicacion: Array<any> = [];
-      this.produccionAcademicaService.get('tipo_publicacion_libro/?limit=0')
-        .subscribe(res => {
-          if (res !== null) {
-            tipopublicacion = <Array<TipoPublicacionLibro>>res;
-          }
-          this.formLibro.campos[ this.getIndexForm('TipoPublicacion') ].opciones = tipopublicacion;
-        });
+    this.produccionAcademicaService.get('tipo_publicacion_libro/?limit=0')
+      .subscribe(res => {
+        if (res !== null) {
+          tipopublicacion = <Array<TipoPublicacionLibro>>res;
+        }
+        this.formLibro.campos[this.getIndexForm('TipoPublicacion')].opciones = tipopublicacion;
+      });
   }
   loadOptionsMediodivulgacion(): void {
     let mediodivulgacion: Array<any> = [];
-      this.produccionAcademicaService.get('medio_divulgacion/?limit=0')
-        .subscribe(res => {
-          if (res !== null) {
-            mediodivulgacion = <Array<MedioDivulgacion>>res;
-          }
-          this.formLibro.campos[ this.getIndexForm('MedioDivulgacion') ].opciones = mediodivulgacion;
-        });
+    this.produccionAcademicaService.get('medio_divulgacion/?limit=0')
+      .subscribe(res => {
+        if (res !== null) {
+          mediodivulgacion = <Array<MedioDivulgacion>>res;
+        }
+        this.formLibro.campos[this.getIndexForm('MedioDivulgacion')].opciones = mediodivulgacion;
+      });
   }
   loadOptionsMediopublicacion(): void {
     let mediopublicacion: Array<any> = [];
-      this.produccionAcademicaService.get('medio_publicacion/?limit=0')
-        .subscribe(res => {
-          if (res !== null) {
-            mediopublicacion = <Array<MedioPublicacion>>res;
-          }
-          this.formLibro.campos[ this.getIndexForm('MedioPublicacion') ].opciones = mediopublicacion;
-        });
+    this.produccionAcademicaService.get('medio_publicacion/?limit=0')
+      .subscribe(res => {
+        if (res !== null) {
+          mediopublicacion = <Array<MedioPublicacion>>res;
+        }
+        this.formLibro.campos[this.getIndexForm('MedioPublicacion')].opciones = mediopublicacion;
+      });
   }
   loadOptionsCiudadPublicacion(): void {
     let ciudadPublicacion: Array<any> = [];
-      this.ubicacionesService.get('lugar/?query=TipoLugar.Id:2')
-        .subscribe(res => {
-          if (res !== null) {
-            ciudadPublicacion = <Array<Lugar>>res;
-          }
-          this.formLibro.campos[this.getIndexForm('Ubicacion')].opciones = ciudadPublicacion;
-        },
+    this.ubicacionesService.get('lugar/?query=TipoLugar.Id:2')
+      .subscribe(res => {
+        if (res !== null) {
+          ciudadPublicacion = <Array<Lugar>>res;
+        }
+        this.formLibro.campos[this.getIndexForm('Ubicacion')].opciones = ciudadPublicacion;
+      },
         (error: HttpErrorResponse) => {
           Swal({
             type: 'error',
@@ -145,14 +145,14 @@ export class CrudLibroComponent implements OnInit {
             // this.datosGet = <InfoContactoGet>res;
             // this.ciudadP = this.ubicacionesService.get('/lugar/?query=Id:' + this.info_libro.Ubicacion.Id);
             // this.info_libro = {
-              // Ubicacion: this.ubicacionesService.get('/lugar/?query=Id:' + this.info_libro.Ubicacion.Id),
+            // Ubicacion: this.ubicacionesService.get('/lugar/?query=Id:' + this.info_libro.Ubicacion.Id),
             // }
             // this.info_libro.Ubicacion = this.ubicacionesService.get('/lugar/?query=Id:' + this.info_libro.Ubicacion.Id);
             console.info('Ciudadela: ' + this.info_libro.Ubicacion);
             // this.info_libro.Ubicacion=this.UbicacionEnte[0].Lugar.CIUDAD
           }
         });
-    } else  {
+    } else {
       this.info_libro = undefined;
       this.clean = !this.clean;
     }
@@ -169,17 +169,17 @@ export class CrudLibroComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
-      if (willDelete.value) {
-        this.info_libro = <Libro>libro;
-        this.produccionAcademicaService.put('libro', this.info_libro)
-          .subscribe(res => {
-            this.loadLibro();
-            this.eventChange.emit(true);
-            this.showToast('info', 'updated', 'Libro updated');
-          });
-      }
-    });
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.info_libro = <Libro>libro;
+          this.produccionAcademicaService.put('libro', this.info_libro)
+            .subscribe(res => {
+              this.loadLibro();
+              this.eventChange.emit(true);
+              this.showToast('info', 'updated', 'Libro updated');
+            });
+        }
+      });
   }
 
   createLibro(libro: any): void {
@@ -192,20 +192,20 @@ export class CrudLibroComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
-      if (willDelete.value) {
-        this.info_libro = <Libro>libro;
-        this.info_libro.Persona = this.ente;
-        console.info('EnteGuardado: ' + this.ente);
-        this.info_libro.Persona = this.ente;
-        this.produccionAcademicaService.post('libro', this.info_libro)
-          .subscribe(res => {
-            this.info_libro = <Libro>res;
-            this.eventChange.emit(true);
-            this.showToast('info', 'created', 'Libro created');
-          });
-      }
-    });
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.info_libro = <Libro>libro;
+          this.info_libro.Persona = this.ente;
+          console.info('EnteGuardado: ' + this.ente);
+          this.info_libro.Persona = this.ente;
+          this.produccionAcademicaService.post('libro', this.info_libro)
+            .subscribe(res => {
+              this.info_libro = <Libro>res;
+              this.eventChange.emit(true);
+              this.showToast('info', 'created', 'Libro created');
+            });
+        }
+      });
   }
 
   ngOnInit() {
@@ -223,9 +223,9 @@ export class CrudLibroComponent implements OnInit {
   }
 
   activarCapitulo(event) {
-     if (event.valid) {
-         !this.activarTituloCapitulo;
-       }
+    if (event.valid) {
+      !this.activarTituloCapitulo;
+    }
   }
 
   private showToast(type: string, title: string, body: string) {

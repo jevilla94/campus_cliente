@@ -1,4 +1,3 @@
-
 import { OtroDocumento } from './../../../@core/data/models/otro_documento';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ProduccionAcademicaService } from '../../../@core/data/produccion_academica.service';
@@ -40,7 +39,7 @@ export class CrudOtroDocumentoComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.construirForm();
     });
-   }
+  }
 
   construirForm() {
     this.formOtroDocumento.titulo = this.translate.instant('GLOBAL.otro_documento');
@@ -75,7 +74,7 @@ export class CrudOtroDocumentoComponent implements OnInit {
             this.info_otro_documento = <OtroDocumento>res[0];
           }
         });
-    } else  {
+    } else {
       this.info_otro_documento = undefined;
       this.clean = !this.clean;
     }
@@ -92,17 +91,17 @@ export class CrudOtroDocumentoComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
-      if (willDelete.value) {
-        this.info_otro_documento = <OtroDocumento>otroDocumento;
-        this.produccionAcademicaService.put('otro_documento', this.info_otro_documento)
-          .subscribe(res => {
-            this.loadOtroDocumento();
-            this.eventChange.emit(true);
-            this.showToast('info', 'updated', 'OtroDocumento updated');
-          });
-      }
-    });
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.info_otro_documento = <OtroDocumento>otroDocumento;
+          this.produccionAcademicaService.put('otro_documento', this.info_otro_documento)
+            .subscribe(res => {
+              this.loadOtroDocumento();
+              this.eventChange.emit(true);
+              this.showToast('info', 'updated', 'OtroDocumento updated');
+            });
+        }
+      });
   }
 
   createOtroDocumento(otroDocumento: any): void {
@@ -115,18 +114,18 @@ export class CrudOtroDocumentoComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
-      if (willDelete.value) {
-        this.info_otro_documento = <OtroDocumento>otroDocumento;
-        this.info_otro_documento.Persona = this.users.getEnte();
-        this.produccionAcademicaService.post('otro_documento', this.info_otro_documento)
-          .subscribe(res => {
-            this.info_otro_documento = <OtroDocumento>res;
-            this.eventChange.emit(true);
-            this.showToast('info', 'created', 'OtroDocumento created');
-          });
-      }
-    });
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.info_otro_documento = <OtroDocumento>otroDocumento;
+          this.info_otro_documento.Persona = this.users.getEnte();
+          this.produccionAcademicaService.post('otro_documento', this.info_otro_documento)
+            .subscribe(res => {
+              this.info_otro_documento = <OtroDocumento>res;
+              this.eventChange.emit(true);
+              this.showToast('info', 'created', 'OtroDocumento created');
+            });
+        }
+      });
   }
 
   ngOnInit() {

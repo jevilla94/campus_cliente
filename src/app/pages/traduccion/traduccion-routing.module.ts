@@ -4,8 +4,6 @@ import { TraduccionComponent } from './traduccion.component';
 import { ListTraduccionComponent } from './list-traduccion/list-traduccion.component';
 import { CrudTraduccionComponent } from './crud-traduccion/crud-traduccion.component';
 
-
-
 const routes: Routes = [{
   path: '',
   component: TraduccionComponent,
@@ -20,10 +18,10 @@ const routes: Routes = [{
 
 @NgModule({
   imports: [
-      RouterModule.forChild(routes),
+    RouterModule.forChild(routes),
   ],
   exports: [
-      RouterModule,
+    RouterModule,
   ],
 })
 

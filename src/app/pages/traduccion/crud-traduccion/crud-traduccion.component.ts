@@ -49,7 +49,7 @@ export class CrudTraduccionComponent implements OnInit {
     this.loadOptionsTipotraduccion();
     this.loadOptionsMediodivulgacion();
     this.loadOptionsIdiomas();
-   }
+  }
 
   construirForm() {
     this.formTraduccion.titulo = this.translate.instant('GLOBAL.traduccion');
@@ -66,23 +66,23 @@ export class CrudTraduccionComponent implements OnInit {
 
   loadOptionsTipotraduccion(): void {
     let tipotraduccion: Array<any> = [];
-      this.produccionAcademicaService.get('tipo_traduccion/?limit=0')
-        .subscribe(res => {
-          if (res !== null) {
-            tipotraduccion = <Array<TipoTraduccion>>res;
-          }
-          this.formTraduccion.campos[ this.getIndexForm('Tipotraduccion') ].opciones = tipotraduccion;
-        });
+    this.produccionAcademicaService.get('tipo_traduccion/?limit=0')
+      .subscribe(res => {
+        if (res !== null) {
+          tipotraduccion = <Array<TipoTraduccion>>res;
+        }
+        this.formTraduccion.campos[this.getIndexForm('Tipotraduccion')].opciones = tipotraduccion;
+      });
   }
   loadOptionsMediodivulgacion(): void {
     let mediodivulgacion: Array<any> = [];
-      this.produccionAcademicaService.get('medio_divulgacion/?limit=0')
-        .subscribe(res => {
-          if (res !== null) {
-            mediodivulgacion = <Array<MedioDivulgacion>>res;
-          }
-          this.formTraduccion.campos[ this.getIndexForm('MedioDivulgacion') ].opciones = mediodivulgacion;
-        });
+    this.produccionAcademicaService.get('medio_divulgacion/?limit=0')
+      .subscribe(res => {
+        if (res !== null) {
+          mediodivulgacion = <Array<MedioDivulgacion>>res;
+        }
+        this.formTraduccion.campos[this.getIndexForm('MedioDivulgacion')].opciones = mediodivulgacion;
+      });
   }
   loadOptionsIdiomas(): void {
     let idioma: Array<any> = [];
@@ -94,14 +94,14 @@ export class CrudTraduccionComponent implements OnInit {
         this.formTraduccion.campos[this.getIndexForm('IdiomaOriginal')].opciones = idioma;
         this.formTraduccion.campos[this.getIndexForm('IdiomaTraducido')].opciones = idioma;
       },
-      (error: HttpErrorResponse) => {
-        Swal({
-          type: 'error',
-          title: error.status + '',
-          text: this.translate.instant('ERROR.' + error.status),
-          confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+        (error: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
         });
-      });
   }
 
 
@@ -124,7 +124,7 @@ export class CrudTraduccionComponent implements OnInit {
             this.info_traduccion = <Traduccion>res[0];
           }
         });
-    } else  {
+    } else {
       this.info_traduccion = undefined;
       this.clean = !this.clean;
     }
@@ -141,17 +141,17 @@ export class CrudTraduccionComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
-      if (willDelete.value) {
-        this.info_traduccion = <Traduccion>traduccion;
-        this.produccionAcademicaService.put('traduccion', this.info_traduccion)
-          .subscribe(res => {
-            this.loadTraduccion();
-            this.eventChange.emit(true);
-            this.showToast('info', 'updated', 'Traduccion updated');
-          });
-      }
-    });
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.info_traduccion = <Traduccion>traduccion;
+          this.produccionAcademicaService.put('traduccion', this.info_traduccion)
+            .subscribe(res => {
+              this.loadTraduccion();
+              this.eventChange.emit(true);
+              this.showToast('info', 'updated', 'Traduccion updated');
+            });
+        }
+      });
   }
 
   createTraduccion(traduccion: any): void {
@@ -164,18 +164,18 @@ export class CrudTraduccionComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
-      if (willDelete.value) {
-        this.info_traduccion = <Traduccion>traduccion;
-        this.info_traduccion.Persona = this.users.getEnte();
-        this.produccionAcademicaService.post('traduccion', this.info_traduccion)
-          .subscribe(res => {
-            this.info_traduccion = <Traduccion>res;
-            this.eventChange.emit(true);
-            this.showToast('info', 'created', 'Traduccion created');
-          });
-      }
-    });
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.info_traduccion = <Traduccion>traduccion;
+          this.info_traduccion.Persona = this.users.getEnte();
+          this.produccionAcademicaService.post('traduccion', this.info_traduccion)
+            .subscribe(res => {
+              this.info_traduccion = <Traduccion>res;
+              this.eventChange.emit(true);
+              this.showToast('info', 'created', 'Traduccion created');
+            });
+        }
+      });
   }
 
   ngOnInit() {

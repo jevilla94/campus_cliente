@@ -11,7 +11,7 @@ import 'style-loader!angular2-toaster/toaster.css';
   selector: 'ngx-list-traduccion',
   templateUrl: './list-traduccion.component.html',
   styleUrls: ['./list-traduccion.component.scss'],
-  })
+})
 export class ListTraduccionComponent implements OnInit {
   uid: number;
   cambiotab: boolean = false;
@@ -137,12 +137,12 @@ export class ListTraduccionComponent implements OnInit {
 
   loadData(): void {
     this.produccionAcademicaService.get('traduccion/?query=persona:' + this.users.getEnte())
-    .subscribe(res => {
-      if (res !== null) {
-        const data = <Array<any>>res;
-        this.source.load(data);
-          }
-    });
+      .subscribe(res => {
+        if (res !== null) {
+          const data = <Array<any>>res;
+          this.source.load(data);
+        }
+      });
   }
 
   ngOnInit() {
@@ -168,17 +168,17 @@ export class ListTraduccionComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
+      .then((willDelete) => {
 
-      if (willDelete.value) {
-        this.produccionAcademicaService.delete('traduccion/', event.data).subscribe(res => {
-          if (res !== null) {
-            this.loadData();
-            this.showToast('info', 'deleted', 'Traduccion deleted');
+        if (willDelete.value) {
+          this.produccionAcademicaService.delete('traduccion/', event.data).subscribe(res => {
+            if (res !== null) {
+              this.loadData();
+              this.showToast('info', 'deleted', 'Traduccion deleted');
             }
-         });
-      }
-    });
+          });
+        }
+      });
   }
 
   activetab(): void {

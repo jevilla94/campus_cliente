@@ -41,7 +41,7 @@ export class CrudProduccionArtesArquDisenoComponent implements OnInit {
       this.construirForm();
     });
     this.loadOptionsTipodisciplina();
-   }
+  }
 
   construirForm() {
     this.formProduccionArtesArquDiseno.titulo = this.translate.instant('GLOBAL.produccion_artes_arqu_diseno');
@@ -49,7 +49,7 @@ export class CrudProduccionArtesArquDisenoComponent implements OnInit {
     for (let i = 0; i < this.formProduccionArtesArquDiseno.campos.length; i++) {
       this.formProduccionArtesArquDiseno.campos[i].label = this.translate.instant('GLOBAL.' + this.formProduccionArtesArquDiseno.campos[i].label_i18n);
       this.formProduccionArtesArquDiseno.campos[i].placeholder = this.translate.
-      instant('GLOBAL.placeholder_' + this.formProduccionArtesArquDiseno.campos[i].label_i18n);
+        instant('GLOBAL.placeholder_' + this.formProduccionArtesArquDiseno.campos[i].label_i18n);
     }
   }
 
@@ -59,13 +59,13 @@ export class CrudProduccionArtesArquDisenoComponent implements OnInit {
 
   loadOptionsTipodisciplina(): void {
     let tipodisciplina: Array<any> = [];
-      this.produccionAcademicaService.get('tipo_disciplina/?limit=0')
-        .subscribe(res => {
-          if (res !== null) {
-            tipodisciplina = <Array<TipoDisciplina>>res;
-          }
-          this.formProduccionArtesArquDiseno.campos[ this.getIndexForm('TipoDisciplina') ].opciones = tipodisciplina;
-        });
+    this.produccionAcademicaService.get('tipo_disciplina/?limit=0')
+      .subscribe(res => {
+        if (res !== null) {
+          tipodisciplina = <Array<TipoDisciplina>>res;
+        }
+        this.formProduccionArtesArquDiseno.campos[this.getIndexForm('TipoDisciplina')].opciones = tipodisciplina;
+      });
   }
 
   getIndexForm(nombre: String): number {
@@ -87,7 +87,7 @@ export class CrudProduccionArtesArquDisenoComponent implements OnInit {
             this.info_produccion_artes_arqu_diseno = <ProduccionArtesArquDiseno>res[0];
           }
         });
-    } else  {
+    } else {
       this.info_produccion_artes_arqu_diseno = undefined;
       this.clean = !this.clean;
     }
@@ -104,17 +104,17 @@ export class CrudProduccionArtesArquDisenoComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
-      if (willDelete.value) {
-        this.info_produccion_artes_arqu_diseno = <ProduccionArtesArquDiseno>produccionArtesArquDiseno;
-        this.produccionAcademicaService.put('produccion_artes_arqu_diseno', this.info_produccion_artes_arqu_diseno)
-          .subscribe(res => {
-            this.loadProduccionArtesArquDiseno();
-            this.eventChange.emit(true);
-            this.showToast('info', 'updated', 'ProduccionArtesArquDiseno updated');
-          });
-      }
-    });
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.info_produccion_artes_arqu_diseno = <ProduccionArtesArquDiseno>produccionArtesArquDiseno;
+          this.produccionAcademicaService.put('produccion_artes_arqu_diseno', this.info_produccion_artes_arqu_diseno)
+            .subscribe(res => {
+              this.loadProduccionArtesArquDiseno();
+              this.eventChange.emit(true);
+              this.showToast('info', 'updated', 'ProduccionArtesArquDiseno updated');
+            });
+        }
+      });
   }
 
   createProduccionArtesArquDiseno(produccionArtesArquDiseno: any): void {
@@ -127,18 +127,18 @@ export class CrudProduccionArtesArquDisenoComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
-      if (willDelete.value) {
-        this.info_produccion_artes_arqu_diseno = <ProduccionArtesArquDiseno>produccionArtesArquDiseno;
-        this.info_produccion_artes_arqu_diseno.Persona = this.user.getEnte();
-        this.produccionAcademicaService.post('produccion_artes_arqu_diseno', this.info_produccion_artes_arqu_diseno)
-          .subscribe(res => {
-            this.info_produccion_artes_arqu_diseno = <ProduccionArtesArquDiseno>res;
-            this.eventChange.emit(true);
-            this.showToast('info', 'created', 'ProduccionArtesArquDiseno created');
-          });
-      }
-    });
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.info_produccion_artes_arqu_diseno = <ProduccionArtesArquDiseno>produccionArtesArquDiseno;
+          this.info_produccion_artes_arqu_diseno.Persona = this.user.getEnte();
+          this.produccionAcademicaService.post('produccion_artes_arqu_diseno', this.info_produccion_artes_arqu_diseno)
+            .subscribe(res => {
+              this.info_produccion_artes_arqu_diseno = <ProduccionArtesArquDiseno>res;
+              this.eventChange.emit(true);
+              this.showToast('info', 'created', 'ProduccionArtesArquDiseno created');
+            });
+        }
+      });
   }
 
   ngOnInit() {

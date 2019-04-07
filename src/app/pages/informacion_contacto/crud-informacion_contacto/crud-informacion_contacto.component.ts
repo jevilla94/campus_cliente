@@ -49,7 +49,7 @@ export class CrudInformacionContactoComponent implements OnInit {
     private translate: TranslateService,
     private campusMidService: CampusMidService,
     private ubicacionesService: UbicacionesService,
-    private store: Store < IAppState >,
+    private store: Store<IAppState>,
     private listService: ListService,
     private toasterService: ToasterService) {
     this.formInformacionContacto = FORM_INFORMACION_CONTACTO;
@@ -99,17 +99,17 @@ export class CrudInformacionContactoComponent implements OnInit {
           }
           this.formInformacionContacto.campos[this.getIndexForm('DepartamentoResidencia')].opciones = departamentoResidencia;
         },
-        (error: HttpErrorResponse) => {
-          Swal({
-            type: 'error',
-            title: error.status + '',
-            text: this.translate.instant('ERROR.' + error.status),
-            footer: this.translate.instant('GLOBAL.cargar') + '-' +
-              this.translate.instant('GLOBAL.informacion_contacto') + '|' +
-              this.translate.instant('GLOBAL.departamento_residencia'),
-            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          (error: HttpErrorResponse) => {
+            Swal({
+              type: 'error',
+              title: error.status + '',
+              text: this.translate.instant('ERROR.' + error.status),
+              footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                this.translate.instant('GLOBAL.informacion_contacto') + '|' +
+                this.translate.instant('GLOBAL.departamento_residencia'),
+              confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+            });
           });
-        });
     }
   }
 
@@ -127,17 +127,17 @@ export class CrudInformacionContactoComponent implements OnInit {
           }
           this.formInformacionContacto.campos[this.getIndexForm('CiudadResidencia')].opciones = ciudadResidencia;
         },
-        (error: HttpErrorResponse) => {
-          Swal({
-            type: 'error',
-            title: error.status + '',
-            text: this.translate.instant('ERROR.' + error.status),
-            footer: this.translate.instant('GLOBAL.cargar') + '-' +
-              this.translate.instant('GLOBAL.informacion_contacto') + '|' +
-              this.translate.instant('GLOBAL.ciudad_residencia'),
-            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          (error: HttpErrorResponse) => {
+            Swal({
+              type: 'error',
+              title: error.status + '',
+              text: this.translate.instant('ERROR.' + error.status),
+              footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                this.translate.instant('GLOBAL.informacion_contacto') + '|' +
+                this.translate.instant('GLOBAL.ciudad_residencia'),
+              confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+            });
           });
-        });
     }
   }
 
@@ -195,16 +195,16 @@ export class CrudInformacionContactoComponent implements OnInit {
             this.loading = false;
           }
         },
-        (error: HttpErrorResponse) => {
-          Swal({
-            type: 'error',
-            title: error.status + '',
-            text: this.translate.instant('ERROR.' + error.status),
-            footer: this.translate.instant('GLOBAL.cargar') + '-' +
-              this.translate.instant('GLOBAL.informacion_contacto'),
-            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          (error: HttpErrorResponse) => {
+            Swal({
+              type: 'error',
+              title: error.status + '',
+              text: this.translate.instant('ERROR.' + error.status),
+              footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                this.translate.instant('GLOBAL.informacion_contacto'),
+              confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+            });
           });
-        });
     } else {
       this.info_informacion_contacto = undefined;
       this.clean = !this.clean;
@@ -227,8 +227,8 @@ export class CrudInformacionContactoComponent implements OnInit {
     Swal(opt)
       .then((willDelete) => {
         if (willDelete.value) {
-        this.loading = true;
-        this.info_informacion_contacto = <InformacionContacto>informacionContacto;
+          this.loading = true;
+          this.info_informacion_contacto = <InformacionContacto>informacionContacto;
           this.datosPut = <InfoContactoPut>{
             Ente: (1 * this.info_informacion_contacto.Ente),
             ContactoEnte: [
@@ -270,17 +270,17 @@ export class CrudInformacionContactoComponent implements OnInit {
                 this.translate.instant('GLOBAL.informacion_contacto') + ' ' +
                 this.translate.instant('GLOBAL.confirmarActualizar'));
             },
-            (error: HttpErrorResponse) => {
-              this.loading = false;
-              Swal({
-                type: 'error',
-                title: error.status + '',
-                text: this.translate.instant('ERROR.' + error.status),
-                footer: this.translate.instant('GLOBAL.actualizar') + '-' +
-                  this.translate.instant('GLOBAL.informacion_contacto'),
-                confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+              (error: HttpErrorResponse) => {
+                this.loading = false;
+                Swal({
+                  type: 'error',
+                  title: error.status + '',
+                  text: this.translate.instant('ERROR.' + error.status),
+                  footer: this.translate.instant('GLOBAL.actualizar') + '-' +
+                    this.translate.instant('GLOBAL.informacion_contacto'),
+                  confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                });
               });
-            });
         }
       });
   }
@@ -344,16 +344,16 @@ export class CrudInformacionContactoComponent implements OnInit {
                 this.translate.instant('GLOBAL.informacion_contacto') + ' ' +
                 this.translate.instant('GLOBAL.confirmarCrear'));
             },
-            (error: HttpErrorResponse) => {
-              Swal({
-                type: 'error',
-                title: error.status + '',
-                text: this.translate.instant('ERROR.' + error.status),
-                footer: this.translate.instant('GLOBAL.crear') + '-' +
-                  this.translate.instant('GLOBAL.informacion_contacto'),
-                confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+              (error: HttpErrorResponse) => {
+                Swal({
+                  type: 'error',
+                  title: error.status + '',
+                  text: this.translate.instant('ERROR.' + error.status),
+                  footer: this.translate.instant('GLOBAL.crear') + '-' +
+                    this.translate.instant('GLOBAL.informacion_contacto'),
+                  confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                });
               });
-            });
         }
       });
   }

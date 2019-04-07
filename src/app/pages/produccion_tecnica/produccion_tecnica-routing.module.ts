@@ -4,8 +4,6 @@ import { ProduccionTecnicaComponent } from './produccion_tecnica.component';
 import { ListProduccionTecnicaComponent } from './list-produccion_tecnica/list-produccion_tecnica.component';
 import { CrudProduccionTecnicaComponent } from './crud-produccion_tecnica/crud-produccion_tecnica.component';
 
-
-
 const routes: Routes = [{
   path: '',
   component: ProduccionTecnicaComponent,
@@ -20,10 +18,10 @@ const routes: Routes = [{
 
 @NgModule({
   imports: [
-      RouterModule.forChild(routes),
+    RouterModule.forChild(routes),
   ],
   exports: [
-      RouterModule,
+    RouterModule,
   ],
 })
 

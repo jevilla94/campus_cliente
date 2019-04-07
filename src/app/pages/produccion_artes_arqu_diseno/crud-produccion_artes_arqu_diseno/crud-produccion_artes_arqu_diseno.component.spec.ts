@@ -11,9 +11,9 @@ describe('CrudProduccionArtesArquDisenoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CrudProduccionArtesArquDisenoComponent ],
+      declarations: [CrudProduccionArtesArquDisenoComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

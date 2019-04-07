@@ -11,7 +11,7 @@ import 'style-loader!angular2-toaster/toaster.css';
   selector: 'ngx-list-produccion-tecnica',
   templateUrl: './list-produccion_tecnica.component.html',
   styleUrls: ['./list-produccion_tecnica.component.scss'],
-  })
+})
 export class ListProduccionTecnicaComponent implements OnInit {
   uid: number;
   cambiotab: boolean = false;
@@ -111,7 +111,7 @@ export class ListProduccionTecnicaComponent implements OnInit {
       if (res !== null) {
         const data = <Array<any>>res;
         this.source.load(data);
-          }
+      }
     });
   }
 
@@ -138,17 +138,17 @@ export class ListProduccionTecnicaComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
+      .then((willDelete) => {
 
-      if (willDelete.value) {
-        this.produccionAcademicaService.delete('produccion_tecnica/', event.data).subscribe(res => {
-          if (res !== null) {
-            this.loadData();
-            this.showToast('info', 'deleted', 'ProduccionTecnica deleted');
+        if (willDelete.value) {
+          this.produccionAcademicaService.delete('produccion_tecnica/', event.data).subscribe(res => {
+            if (res !== null) {
+              this.loadData();
+              this.showToast('info', 'deleted', 'ProduccionTecnica deleted');
             }
-         });
-      }
-    });
+          });
+        }
+      });
   }
 
   activetab(): void {

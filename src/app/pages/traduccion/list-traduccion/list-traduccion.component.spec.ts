@@ -11,9 +11,9 @@ describe('ListTraduccionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListTraduccionComponent ],
+      declarations: [ListTraduccionComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
