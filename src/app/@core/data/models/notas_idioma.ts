@@ -1,4 +1,3 @@
-
 export class NotasIdioma {
   Id: number;
   Persona: number;

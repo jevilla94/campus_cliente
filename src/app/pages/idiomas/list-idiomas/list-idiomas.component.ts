@@ -33,7 +33,7 @@ export class ListIdiomasComponent implements OnInit {
         this.loadData();
         this.cargarCampos();
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-          this.cargarCampos();
+            this.cargarCampos();
         });
         this.loading = false;
     }
@@ -97,30 +97,30 @@ export class ListIdiomasComponent implements OnInit {
     loadData(): void {
         this.loading = true;
         this.idiomaService.get('conocimiento_idioma/?query=persona:' + this.userService.getEnte())
-          .subscribe(res => {
-              if (res !== null) {
-                  const data = <Array<any>>res;
-                  this.loading = false;
-                  this.getPercentage(1);
-                  this.source.load(data);
-              }
-          },
-          (error: HttpErrorResponse) => {
-            Swal({
-              type: 'error',
-              title: error.status + '',
-              text: this.translate.instant('ERROR.' + error.status),
-              footer: this.translate.instant('GLOBAL.cargar') + '-' +
-                this.translate.instant('GLOBAL.idiomas'),
-              confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-            });
-          });
+            .subscribe(res => {
+                if (res !== null) {
+                    const data = <Array<any>>res;
+                    this.loading = false;
+                    this.getPercentage(1);
+                    this.source.load(data);
+                }
+            },
+                (error: HttpErrorResponse) => {
+                    Swal({
+                        type: 'error',
+                        title: error.status + '',
+                        text: this.translate.instant('ERROR.' + error.status),
+                        footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                            this.translate.instant('GLOBAL.idiomas'),
+                        confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                    });
+                });
     }
 
     onChange(event) {
-      if (event) {
-        this.loadData();
-      }
+        if (event) {
+            this.loadData();
+        }
     }
 
     getPercentage(event) {
@@ -131,38 +131,38 @@ export class ListIdiomasComponent implements OnInit {
 
     onDelete(event): void {
         const opt: any = {
-          title: this.translate.instant('GLOBAL.eliminar'),
-          text: this.translate.instant('GLOBAL.eliminar') + '?',
-          icon: 'warning',
-          buttons: true,
-          dangerMode: true,
-          showCancelButton: true,
-          confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-          cancelButtonText: this.translate.instant('GLOBAL.cancelar'),
+            title: this.translate.instant('GLOBAL.eliminar'),
+            text: this.translate.instant('GLOBAL.eliminar') + '?',
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true,
+            showCancelButton: true,
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+            cancelButtonText: this.translate.instant('GLOBAL.cancelar'),
         };
         Swal(opt)
-        .then((willDelete) => {
-            if (willDelete.value) {
-              this.idiomaService.delete('conocimiento_idioma/', event.data).subscribe(res => {
-                if (res !== null) {
-                  this.loadData();
-                  this.showToast('info', this.translate.instant('GLOBAL.eliminar'),
-                  this.translate.instant('GLOBAL.idioma') + ' ' +
-                  this.translate.instant('GLOBAL.confirmarEliminar'));
-                  }
-               },
-               (error: HttpErrorResponse) => {
-                 Swal({
-                   type: 'error',
-                   title: error.status + '',
-                   text: this.translate.instant('ERROR.' + error.status),
-                   footer: this.translate.instant('GLOBAL.eliminar') + '-' +
-                     this.translate.instant('GLOBAL.idioma'),
-                   confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-                 });
-              });
-          }
-        });
+            .then((willDelete) => {
+                if (willDelete.value) {
+                    this.idiomaService.delete('conocimiento_idioma/', event.data).subscribe(res => {
+                        if (res !== null) {
+                            this.loadData();
+                            this.showToast('info', this.translate.instant('GLOBAL.eliminar'),
+                                this.translate.instant('GLOBAL.idioma') + ' ' +
+                                this.translate.instant('GLOBAL.confirmarEliminar'));
+                        }
+                    },
+                        (error: HttpErrorResponse) => {
+                            Swal({
+                                type: 'error',
+                                title: error.status + '',
+                                text: this.translate.instant('ERROR.' + error.status),
+                                footer: this.translate.instant('GLOBAL.eliminar') + '-' +
+                                    this.translate.instant('GLOBAL.idioma'),
+                                confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                            });
+                        });
+                }
+            });
     }
 
     private showToast(type: string, title: string, body: string) {
@@ -190,11 +190,11 @@ export class ListIdiomasComponent implements OnInit {
     }
 
     onEdit(event): void {
-      this.uid = event.data.Id;
+        this.uid = event.data.Id;
     }
 
     onCreate(event): void {
-       this.uid = 0;
+        this.uid = 0;
     }
 
     itemselec(event): void {

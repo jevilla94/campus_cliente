@@ -10,9 +10,9 @@ describe('ViewIdiomasComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewIdiomasComponent ],
+      declarations: [ViewIdiomasComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

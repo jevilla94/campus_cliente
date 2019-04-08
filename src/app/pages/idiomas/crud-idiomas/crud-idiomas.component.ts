@@ -82,17 +82,17 @@ export class CrudIdiomasComponent implements OnInit {
         }
         this.formInfoIdioma.campos[this.getIndexForm('Idioma')].opciones = idioma;
       },
-      (error: HttpErrorResponse) => {
-        Swal({
-          type: 'error',
-          title: error.status + '',
-          text: this.translate.instant('ERROR.' + error.status),
-          footer: this.translate.instant('GLOBAL.cargar') + '-' +
-            this.translate.instant('GLOBAL.idiomas') + '|' +
-            this.translate.instant('GLOBAL.idioma'),
-          confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+        (error: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.idiomas') + '|' +
+              this.translate.instant('GLOBAL.idioma'),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
         });
-      });
   }
 
   loadOptionsNiveles(): void {
@@ -107,17 +107,17 @@ export class CrudIdiomasComponent implements OnInit {
         this.formInfoIdioma.campos[this.getIndexForm('NivelHabla')].opciones = nivel;
         this.formInfoIdioma.campos[this.getIndexForm('NivelLee')].opciones = nivel;
       },
-      (error: HttpErrorResponse) => {
-        Swal({
-          type: 'error',
-          title: error.status + '',
-          text: this.translate.instant('ERROR.' + error.status),
-          footer: this.translate.instant('GLOBAL.cargar') + '-' +
-            this.translate.instant('GLOBAL.idiomas') + '|' +
-            this.translate.instant('GLOBAL.nivel'),
-          confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+        (error: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.idiomas') + '|' +
+              this.translate.instant('GLOBAL.nivel'),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
         });
-      });
   }
 
   loadOptionsClasificacion(): void {
@@ -129,17 +129,17 @@ export class CrudIdiomasComponent implements OnInit {
         }
         this.formInfoIdioma.campos[this.getIndexForm('ClasificacionNivelIdioma')].opciones = clasificacion;
       },
-      (error: HttpErrorResponse) => {
-        Swal({
-          type: 'error',
-          title: error.status + '',
-          text: this.translate.instant('ERROR.' + error.status),
-          footer: this.translate.instant('GLOBAL.cargar') + '-' +
-            this.translate.instant('GLOBAL.idiomas') + '|' +
-            this.translate.instant('GLOBAL.clasificacion_nivel_idioma'),
-          confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+        (error: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.idiomas') + '|' +
+              this.translate.instant('GLOBAL.clasificacion_nivel_idioma'),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
         });
-      });
   }
 
   getIndexForm(nombre: String): number {
@@ -163,17 +163,17 @@ export class CrudIdiomasComponent implements OnInit {
             this.idioma = this.info_idioma.Idioma.Id;
             this.loading = false;
           }
-      },
-      (error: HttpErrorResponse) => {
-        Swal({
-          type: 'error',
-          title: error.status + '',
-          text: this.translate.instant('ERROR.' + error.status),
-          footer: this.translate.instant('GLOBAL.cargar') + '-' +
-            this.translate.instant('GLOBAL.idioma'),
-          confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-        });
-      });
+        },
+          (error: HttpErrorResponse) => {
+            Swal({
+              type: 'error',
+              title: error.status + '',
+              text: this.translate.instant('ERROR.' + error.status),
+              footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                this.translate.instant('GLOBAL.idioma'),
+              confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+            });
+          });
     } else {
       this.info_idioma = undefined;
       this.clean = !this.clean;
@@ -207,17 +207,17 @@ export class CrudIdiomasComponent implements OnInit {
               this.info_idioma_id = 0;
               this.loadInfoIdioma();
             },
-            (error: HttpErrorResponse) => {
-              this.loading = false;
-              Swal({
-                type: 'error',
-                title: error.status + '',
-                text: this.translate.instant('ERROR.' + error.status),
-                footer: this.translate.instant('GLOBAL.actualizar') + '-' +
-                  this.translate.instant('GLOBAL.idioma'),
-                confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+              (error: HttpErrorResponse) => {
+                this.loading = false;
+                Swal({
+                  type: 'error',
+                  title: error.status + '',
+                  text: this.translate.instant('ERROR.' + error.status),
+                  footer: this.translate.instant('GLOBAL.actualizar') + '-' +
+                    this.translate.instant('GLOBAL.idioma'),
+                  confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                });
               });
-            });
         }
       });
   }
@@ -248,16 +248,16 @@ export class CrudIdiomasComponent implements OnInit {
                 this.translate.instant('GLOBAL.idioma') + ' ' +
                 this.translate.instant('GLOBAL.confirmarCrear'));
             },
-            (error: HttpErrorResponse) => {
-              Swal({
-                type: 'error',
-                title: error.status + '',
-                text: this.translate.instant('ERROR.' + error.status),
-                footer: this.translate.instant('GLOBAL.crear') + '-' +
-                  this.translate.instant('GLOBAL.idioma'),
-                confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+              (error: HttpErrorResponse) => {
+                Swal({
+                  type: 'error',
+                  title: error.status + '',
+                  text: this.translate.instant('ERROR.' + error.status),
+                  footer: this.translate.instant('GLOBAL.crear') + '-' +
+                    this.translate.instant('GLOBAL.idioma'),
+                  confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                });
               });
-            });
         }
       });
   }
@@ -291,17 +291,17 @@ export class CrudIdiomasComponent implements OnInit {
           // console.info(this.periodo);
         }
       },
-      (error: HttpErrorResponse) => {
-        Swal({
-          type: 'error',
-          title: error.status + '',
-          text: this.translate.instant('ERROR.' + error.status),
-          footer: this.translate.instant('GLOBAL.cargar') + '-' +
-            this.translate.instant('GLOBAL.idiomas') + '|' +
-            this.translate.instant('GLOBAL.periodo_academico'),
-          confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+        (error: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.idiomas') + '|' +
+              this.translate.instant('GLOBAL.periodo_academico'),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
         });
-      });
   }
 
   private showToast(type: string, title: string, body: string) {

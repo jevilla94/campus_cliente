@@ -88,19 +88,19 @@ export class CrudDescuentoMatriculaComponent implements OnInit {
         if (res !== null) {
           tipodescuentomatricula = <Array<TipoDescuentoMatricula>>res;
         }
-        this.formDescuentoMatricula.campos[ this.getIndexForm('TipoDescuentoMatricula') ].opciones = tipodescuentomatricula;
+        this.formDescuentoMatricula.campos[this.getIndexForm('TipoDescuentoMatricula')].opciones = tipodescuentomatricula;
       },
-      (error: HttpErrorResponse) => {
-        Swal({
-          type: 'error',
-          title: error.status + '',
-          text: this.translate.instant('ERROR.' + error.status),
-          footer: this.translate.instant('GLOBAL.cargar') + '-' +
-            this.translate.instant('GLOBAL.descuento_matricula') + '|' +
-            this.translate.instant('GLOBAL.tipo_descuento_matricula'),
-          confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+        (error: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.descuento_matricula') + '|' +
+              this.translate.instant('GLOBAL.tipo_descuento_matricula'),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
         });
-      });
   }
 
   public loadDescuentoMatricula(): void {
@@ -114,42 +114,42 @@ export class CrudDescuentoMatriculaComponent implements OnInit {
             const temp = <DescuentoMatricula>res[0];
             const files = []
             if (temp.DocumentoSoporte + '' !== '0') {
-              files.push({ Id: temp.Enlace, key: 'DocumentoSoporte'});
+              files.push({ Id: temp.Enlace, key: 'DocumentoSoporte' });
             }
             this.nuxeoService.getDocumentoById$(files, this.documentoService)
               .subscribe(response => {
                 const filesResponse = <any>response;
                 // if ( (Object.keys(filesResponse).length !== 0) && (filesResponse['DocumentoSoporte'] !== undefined) ) {
-               if (Object.keys(filesResponse).length === files.length) {
-                  this.info_descuento_matricula =  <any>res// temp;
+                if (Object.keys(filesResponse).length === files.length) {
+                  this.info_descuento_matricula = <any>res// temp;
                   this.DocumentoSoporte = this.info_descuento_matricula.Soporte;
                   this.info_descuento_matricula.Soporte = filesResponse['DocumentoSoporte'] + '';
                 }
               },
-              (error: HttpErrorResponse) => {
-                Swal({
-                  type: 'error',
-                  title: error.status + '',
-                  text: this.translate.instant('ERROR.' + error.status),
-                  footer: this.translate.instant('GLOBAL.cargar') + '-' +
-                    this.translate.instant('GLOBAL.descuento_matricula') + '|' +
-                    this.translate.instant('GLOBAL.soporte_documento'),
-                  confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                (error: HttpErrorResponse) => {
+                  Swal({
+                    type: 'error',
+                    title: error.status + '',
+                    text: this.translate.instant('ERROR.' + error.status),
+                    footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                      this.translate.instant('GLOBAL.descuento_matricula') + '|' +
+                      this.translate.instant('GLOBAL.soporte_documento'),
+                    confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                  });
                 });
-              });
           }
         },
-        (error: HttpErrorResponse) => {
-          Swal({
-            type: 'error',
-            title: error.status + '',
-            text: this.translate.instant('ERROR.' + error.status),
-            footer: this.translate.instant('GLOBAL.cargar') + '-' +
-              this.translate.instant('GLOBAL.descuento_matricula'),
-            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          (error: HttpErrorResponse) => {
+            Swal({
+              type: 'error',
+              title: error.status + '',
+              text: this.translate.instant('ERROR.' + error.status),
+              footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                this.translate.instant('GLOBAL.descuento_matricula'),
+              confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+            });
           });
-        });
-    } else  {
+    } else {
       this.info_descuento_matricula = undefined;
       this.clean = !this.clean;
       this.loading = false;
@@ -168,33 +168,68 @@ export class CrudDescuentoMatriculaComponent implements OnInit {
       cancelButtonText: this.translate.instant('GLOBAL.cancelar'),
     };
     Swal(opt)
-    .then((willDelete) => {
-      if (willDelete.value) {
-        this.loading = true;
-        this.info_descuento_matricula = <any>descuentoMatricula;
-        const files = [];
-        if (this.info_descuento_matricula.Soporte.file !== undefined) {
-          files.push({ file: this.info_descuento_matricula.Soporte.file, documento: this.DocumentoSoporte, key: 'DocumentoSoporte' });
-          // console.info ('FILES: ' + JSON.stringify(files) + 'Longitud:' + files.length);
-        }
-        if (files.length !== 0) {
-          this.nuxeoService.updateDocument$(files, this.documentoService)
-            .subscribe(response => {
-              if (Object.keys(response).length === files.length) {
-                const documentos_actualizados = <any>response;
-                this.descuentosPosgradoService.put('descuento_matricula', this.info_descuento_matricula)
-                .subscribe(res => {
-                  if (documentos_actualizados['DocumentoSoporte'] !== undefined) {
-                    this.info_descuento_matricula.Soporte = documentos_actualizados['DocumentoSoporte'].url + '';
-                  }
-                  this.loadDescuentoMatricula();
-                  this.loading = false;
-                  this.eventChange.emit(true);
-                  this.showToast('info', this.translate.instant('GLOBAL.actualizar'),
-                    this.translate.instant('GLOBAL.descuento_matricula') + ' ' +
-                    this.translate.instant('GLOBAL.confirmarActualizar'));
-                },
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.loading = true;
+          this.info_descuento_matricula = <any>descuentoMatricula;
+          const files = [];
+          if (this.info_descuento_matricula.Soporte.file !== undefined) {
+            files.push({ file: this.info_descuento_matricula.Soporte.file, documento: this.DocumentoSoporte, key: 'DocumentoSoporte' });
+            // console.info ('FILES: ' + JSON.stringify(files) + 'Longitud:' + files.length);
+          }
+          if (files.length !== 0) {
+            this.nuxeoService.updateDocument$(files, this.documentoService)
+              .subscribe(response => {
+                if (Object.keys(response).length === files.length) {
+                  const documentos_actualizados = <any>response;
+                  this.descuentosPosgradoService.put('descuento_matricula', this.info_descuento_matricula)
+                    .subscribe(res => {
+                      if (documentos_actualizados['DocumentoSoporte'] !== undefined) {
+                        this.info_descuento_matricula.Soporte = documentos_actualizados['DocumentoSoporte'].url + '';
+                      }
+                      this.loadDescuentoMatricula();
+                      this.loading = false;
+                      this.eventChange.emit(true);
+                      this.showToast('info', this.translate.instant('GLOBAL.actualizar'),
+                        this.translate.instant('GLOBAL.descuento_matricula') + ' ' +
+                        this.translate.instant('GLOBAL.confirmarActualizar'));
+                    },
+                      (error: HttpErrorResponse) => {
+                        Swal({
+                          type: 'error',
+                          title: error.status + '',
+                          text: this.translate.instant('ERROR.' + error.status),
+                          footer: this.translate.instant('GLOBAL.actualizar') + '-' +
+                            this.translate.instant('GLOBAL.descuento_matricula'),
+                          confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                        });
+                      });
+                }
+              },
                 (error: HttpErrorResponse) => {
+                  this.loading = false;
+                  Swal({
+                    type: 'error',
+                    title: error.status + '',
+                    text: this.translate.instant('ERROR.' + error.status),
+                    footer: this.translate.instant('GLOBAL.actualizar') + '-' +
+                      this.translate.instant('GLOBAL.descuento_matricula') + '|' +
+                      this.translate.instant('GLOBAL.soporte_documento'),
+                    confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                  });
+                });
+          } else {
+            this.info_descuento_matricula.Soporte = this.DocumentoSoporte;
+            this.descuentosPosgradoService.put('descuentoMatricula', this.info_descuento_matricula)
+              .subscribe(res => {
+                this.eventChange.emit(true);
+                this.loadDescuentoMatricula();
+                this.showToast('info', this.translate.instant('GLOBAL.actualizar'),
+                  this.translate.instant('GLOBAL.descuento_matricula') + ' ' +
+                  this.translate.instant('GLOBAL.confirmarActualizar'));
+              },
+                (error: HttpErrorResponse) => {
+                  this.loading = false;
                   Swal({
                     type: 'error',
                     title: error.status + '',
@@ -204,44 +239,9 @@ export class CrudDescuentoMatriculaComponent implements OnInit {
                     confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
                   });
                 });
-              }
-            },
-            (error: HttpErrorResponse) => {
-              this.loading = false;
-              Swal({
-                type: 'error',
-                title: error.status + '',
-                text: this.translate.instant('ERROR.' + error.status),
-                footer: this.translate.instant('GLOBAL.actualizar') + '-' +
-                  this.translate.instant('GLOBAL.descuento_matricula') + '|' +
-                  this.translate.instant('GLOBAL.soporte_documento'),
-                confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-              });
-            });
-        } else {
-          this.info_descuento_matricula.Soporte = this.DocumentoSoporte;
-          this.descuentosPosgradoService.put('descuentoMatricula', this.info_descuento_matricula)
-            .subscribe(res => {
-              this.eventChange.emit(true);
-              this.loadDescuentoMatricula();
-              this.showToast('info', this.translate.instant('GLOBAL.actualizar'),
-                this.translate.instant('GLOBAL.descuento_matricula') + ' ' +
-                this.translate.instant('GLOBAL.confirmarActualizar'));
-            },
-            (error: HttpErrorResponse) => {
-              this.loading = false;
-              Swal({
-                type: 'error',
-                title: error.status + '',
-                text: this.translate.instant('ERROR.' + error.status),
-                footer: this.translate.instant('GLOBAL.actualizar') + '-' +
-                  this.translate.instant('GLOBAL.descuento_matricula'),
-                confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-              });
-            });
+          }
         }
-      }
-    });
+      });
   }
 
   crearNuevoDescuentoMatricula(descuentoMatricula: any): void {
@@ -282,7 +282,7 @@ export class CrudDescuentoMatriculaComponent implements OnInit {
           this.createDescuentoMatricula(descuentoMatricula);
         }
       });
-      this.eventChange.emit(true);
+    this.eventChange.emit(true);
   }
 
   createDescuentoMatricula(descuentoMatricula: any): void {
@@ -297,64 +297,65 @@ export class CrudDescuentoMatriculaComponent implements OnInit {
       cancelButtonText: this.translate.instant('GLOBAL.cancelar'),
     };
     Swal(opt)
-    .then((willDelete) => {
-      this.loading = true;
-      if (willDelete.value) {
-        const files = []
-        this.info_descuento_matricula = <DescuentoMatricula>descuentoMatricula;
-        this.info_descuento_matricula.Ente = this.user.getEnte();
-        // const valor =  descuentoMatricula.TipoDescuentoMatricula.Id;
-        if (this.info_descuento_matricula.Soporte.file !== undefined) {
-           files.push({
-             nombre: this.autenticationService.getPayload().sub, key: 'DocumentoSoporte',
-             file: this.info_descuento_matricula.Soporte.file, IdDocumento: 7});
-        }
-        this.nuxeoService.getDocumentos$(files, this.documentoService)
-          .subscribe(response => {
-            if (Object.keys(response).length === files.length) {
-              const filesUp = <any>response;
-              if (filesUp['DocumentoSoporte'] !== undefined) {
-                  this.info_descuento_matricula.Enlace = filesUp['DocumentoSoporte'].Id;
-              }
-              this.descuentosPosgradoService.post('descuento_matricula', this.info_descuento_matricula)
-                .subscribe(res => {
-                  const r = <any>res
-                  if (r !== null && r.Type !== 'error') {
-                    this.eventChange.emit(true);
-                    this.showToast('info', this.translate.instant('GLOBAL.crear'),
-                      this.translate.instant('GLOBAL.descuento_matricula') + ' ' +
-                      this.translate.instant('GLOBAL.confirmarCrear'));
-                    this.clean = !this.clean;
-                  } else {
-                    this.showToast('error', this.translate.instant('GLOBAL.error'),
-                    this.translate.instant('GLOBAL.error'));
-                  }
-                },
-                (error: HttpErrorResponse) => {
-                  Swal({
-                    type: 'error',
-                    title: error.status + '',
-                    text: this.translate.instant('ERROR.' + error.status),
-                    footer: this.translate.instant('GLOBAL.crear') + '-' +
-                      this.translate.instant('GLOBAL.descuento_matricula'),
-                    confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-                  });
-                });
-            }
-          },
-          (error: HttpErrorResponse) => {
-            Swal({
-              type: 'error',
-              title: error.status + '',
-              text: this.translate.instant('ERROR.' + error.status),
-              footer: this.translate.instant('GLOBAL.crear') + '-' +
-                this.translate.instant('GLOBAL.descuento_matricula') + '|' +
-                this.translate.instant('GLOBAL.soporte_documento'),
-              confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+      .then((willDelete) => {
+        this.loading = true;
+        if (willDelete.value) {
+          const files = []
+          this.info_descuento_matricula = <DescuentoMatricula>descuentoMatricula;
+          this.info_descuento_matricula.Ente = this.user.getEnte();
+          // const valor =  descuentoMatricula.TipoDescuentoMatricula.Id;
+          if (this.info_descuento_matricula.Soporte.file !== undefined) {
+            files.push({
+              nombre: this.autenticationService.getPayload().sub, key: 'DocumentoSoporte',
+              file: this.info_descuento_matricula.Soporte.file, IdDocumento: 7,
             });
-          });
-      }
-    });
+          }
+          this.nuxeoService.getDocumentos$(files, this.documentoService)
+            .subscribe(response => {
+              if (Object.keys(response).length === files.length) {
+                const filesUp = <any>response;
+                if (filesUp['DocumentoSoporte'] !== undefined) {
+                  this.info_descuento_matricula.Enlace = filesUp['DocumentoSoporte'].Id;
+                }
+                this.descuentosPosgradoService.post('descuento_matricula', this.info_descuento_matricula)
+                  .subscribe(res => {
+                    const r = <any>res
+                    if (r !== null && r.Type !== 'error') {
+                      this.eventChange.emit(true);
+                      this.showToast('info', this.translate.instant('GLOBAL.crear'),
+                        this.translate.instant('GLOBAL.descuento_matricula') + ' ' +
+                        this.translate.instant('GLOBAL.confirmarCrear'));
+                      this.clean = !this.clean;
+                    } else {
+                      this.showToast('error', this.translate.instant('GLOBAL.error'),
+                        this.translate.instant('GLOBAL.error'));
+                    }
+                  },
+                    (error: HttpErrorResponse) => {
+                      Swal({
+                        type: 'error',
+                        title: error.status + '',
+                        text: this.translate.instant('ERROR.' + error.status),
+                        footer: this.translate.instant('GLOBAL.crear') + '-' +
+                          this.translate.instant('GLOBAL.descuento_matricula'),
+                        confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                      });
+                    });
+              }
+            },
+              (error: HttpErrorResponse) => {
+                Swal({
+                  type: 'error',
+                  title: error.status + '',
+                  text: this.translate.instant('ERROR.' + error.status),
+                  footer: this.translate.instant('GLOBAL.crear') + '-' +
+                    this.translate.instant('GLOBAL.descuento_matricula') + '|' +
+                    this.translate.instant('GLOBAL.soporte_documento'),
+                  confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                });
+              });
+        }
+      });
     this.loadDescuentoMatricula();
   }
 

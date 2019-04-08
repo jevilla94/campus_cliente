@@ -7,9 +7,9 @@ describe('DescargaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DescargaComponent ],
+      declarations: [DescargaComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

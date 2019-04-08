@@ -43,11 +43,11 @@ export class ViewIdiomasComponent implements OnInit {
 
   public loadInfoIdioma(): void {
     this.idiomaService.get('conocimiento_idioma/?query=persona:' + this.ente)
-        .subscribe(res => {
-            if (res !== null) {
-                this.info_idioma = <Array<any>>res;
-            }
-        },
+      .subscribe(res => {
+        if (res !== null) {
+          this.info_idioma = <Array<any>>res;
+        }
+      },
         (error: HttpErrorResponse) => {
           Swal({
             type: 'error',

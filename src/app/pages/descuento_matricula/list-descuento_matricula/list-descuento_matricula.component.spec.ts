@@ -11,9 +11,9 @@ describe('ListDescuentoMatriculaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListDescuentoMatriculaComponent ],
+      declarations: [ListDescuentoMatriculaComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

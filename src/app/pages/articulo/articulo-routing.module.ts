@@ -4,7 +4,6 @@ import { ArticuloComponent } from './articulo.component';
 import { ListArticuloComponent } from './list-articulo/list-articulo.component';
 import { CrudArticuloComponent } from './crud-articulo/crud-articulo.component';
 
-
 const routes: Routes = [{
   path: '',
   component: ArticuloComponent,
@@ -19,10 +18,10 @@ const routes: Routes = [{
 
 @NgModule({
   imports: [
-      RouterModule.forChild(routes),
+    RouterModule.forChild(routes),
   ],
   exports: [
-      RouterModule,
+    RouterModule,
   ],
 })
 

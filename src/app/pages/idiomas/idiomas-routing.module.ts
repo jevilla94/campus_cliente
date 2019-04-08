@@ -13,7 +13,7 @@ const routes: Routes = [{
     path: 'list-idiomas',
     component: ListIdiomasComponent,
     // canActivate: [AuthGuard],
- }, {
+  }, {
     path: 'crud-idiomas',
     component: CrudIdiomasComponent,
     // canActivate: [AuthGuard],
@@ -26,18 +26,18 @@ const routes: Routes = [{
 
 @NgModule({
   imports: [
-      RouterModule.forChild(routes),
+    RouterModule.forChild(routes),
   ],
   exports: [
-      RouterModule,
+    RouterModule,
   ],
 })
 
 export class IdiomasRoutingModule { }
 
 export const routedComponents = [
-    IdiomasComponent,
-    ListIdiomasComponent,
-    ViewIdiomasComponent,
-    CrudIdiomasComponent,
+  IdiomasComponent,
+  ListIdiomasComponent,
+  ViewIdiomasComponent,
+  CrudIdiomasComponent,
 ];

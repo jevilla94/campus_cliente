@@ -1,4 +1,3 @@
-
 export class TipoDescuentoMatricula {
   Id: number;
   Nombre: string;

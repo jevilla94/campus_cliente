@@ -26,18 +26,18 @@ const routes: Routes = [{
 
 @NgModule({
   imports: [
-      RouterModule.forChild(routes),
+    RouterModule.forChild(routes),
   ],
   exports: [
-      RouterModule,
+    RouterModule,
   ],
 })
 
 export class FormacionAcademicaRoutingModule { }
 
 export const routedComponents = [
-    FormacionAcademicaComponent,
-    ListFormacionAcademicaComponent,
-    CrudFormacionAcademicaComponent,
-    ViewFormacionAcademicaComponent,
+  FormacionAcademicaComponent,
+  ListFormacionAcademicaComponent,
+  CrudFormacionAcademicaComponent,
+  ViewFormacionAcademicaComponent,
 ];

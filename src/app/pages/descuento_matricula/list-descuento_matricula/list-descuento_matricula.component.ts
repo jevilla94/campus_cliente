@@ -12,7 +12,7 @@ import 'style-loader!angular2-toaster/toaster.css';
   selector: 'ngx-list-descuento-matricula',
   templateUrl: './list-descuento_matricula.component.html',
   styleUrls: ['./list-descuento_matricula.component.scss'],
-  })
+})
 export class ListDescuentoMatriculaComponent implements OnInit {
   uid: number;
   cambiotab: boolean = false;
@@ -72,25 +72,25 @@ export class ListDescuentoMatriculaComponent implements OnInit {
 
   loadData(): void {
     this.descuentosPosgradoService.get('descuento_matricula/?query=ente:' + this.userService.getEnte())
-    .subscribe(res => {
-      if (res !== null) {
-        const data = <Array<any>>res;
-        this.loading = false;
-        this.getPercentage(1);
-        this.source.load(data);
-      }
-    },
-    (error: HttpErrorResponse) => {
-      Swal({
-        type: 'error',
-        title: error.status + '',
-        text: this.translate.instant('ERROR.' + error.status),
-        footer: this.translate.instant('GLOBAL.cargar') + '-' +
-          this.translate.instant('GLOBAL.descuento_matricula'),
-        confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-    });
-  });
-}
+      .subscribe(res => {
+        if (res !== null) {
+          const data = <Array<any>>res;
+          this.loading = false;
+          this.getPercentage(1);
+          this.source.load(data);
+        }
+      },
+        (error: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.descuento_matricula'),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
+        });
+  }
 
   ngOnInit() {
   }
@@ -114,28 +114,28 @@ export class ListDescuentoMatriculaComponent implements OnInit {
       cancelButtonText: this.translate.instant('GLOBAL.cancelar'),
     };
     Swal(opt)
-    .then((willDelete) => {
-      if (willDelete.value) {
-        this.descuentosPosgradoService.delete('descuento_matricula/', event.data).subscribe(res => {
-          if (res !== null) {
-            this.loadData();
-            this.showToast('info', this.translate.instant('GLOBAL.eliminar'),
-              this.translate.instant('GLOBAL.idioma') + ' ' +
-              this.translate.instant('GLOBAL.confirmarEliminar'));
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.descuentosPosgradoService.delete('descuento_matricula/', event.data).subscribe(res => {
+            if (res !== null) {
+              this.loadData();
+              this.showToast('info', this.translate.instant('GLOBAL.eliminar'),
+                this.translate.instant('GLOBAL.idioma') + ' ' +
+                this.translate.instant('GLOBAL.confirmarEliminar'));
             }
-         },
-         (error: HttpErrorResponse) => {
-           Swal({
-             type: 'error',
-             title: error.status + '',
-             text: this.translate.instant('ERROR.' + error.status),
-             footer: this.translate.instant('GLOBAL.eliminar') + '-' +
-               this.translate.instant('GLOBAL.descuento_matricula'),
-             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
-           });
-         });
-       }
-    });
+          },
+            (error: HttpErrorResponse) => {
+              Swal({
+                type: 'error',
+                title: error.status + '',
+                text: this.translate.instant('ERROR.' + error.status),
+                footer: this.translate.instant('GLOBAL.eliminar') + '-' +
+                  this.translate.instant('GLOBAL.descuento_matricula'),
+                confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+              });
+            });
+        }
+      });
   }
 
   activetab(): void {

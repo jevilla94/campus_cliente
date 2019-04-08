@@ -10,9 +10,9 @@ describe('ViewFormacionAcademicaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewFormacionAcademicaComponent ],
+      declarations: [ViewFormacionAcademicaComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

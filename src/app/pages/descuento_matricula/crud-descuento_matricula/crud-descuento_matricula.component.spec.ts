@@ -11,9 +11,9 @@ describe('CrudDescuentoMatriculaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CrudDescuentoMatriculaComponent ],
+      declarations: [CrudDescuentoMatriculaComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

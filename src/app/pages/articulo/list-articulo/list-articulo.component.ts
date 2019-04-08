@@ -11,7 +11,7 @@ import 'style-loader!angular2-toaster/toaster.css';
   selector: 'ngx-list-articulo',
   templateUrl: './list-articulo.component.html',
   styleUrls: ['./list-articulo.component.scss'],
-  })
+})
 export class ListArticuloComponent implements OnInit {
   uid: number;
   eid: number;
@@ -151,12 +151,12 @@ export class ListArticuloComponent implements OnInit {
 
   loadData(): void {
     this.produccionAcademicaService.get('articulo/?query=Persona:' + this.userService.getEnte())
-    .subscribe(res => {
-      if (res !== null) {
-        const data = <Array<any>>res;
-        this.source.load(data);
-          }
-    });
+      .subscribe(res => {
+        if (res !== null) {
+          const data = <Array<any>>res;
+          this.source.load(data);
+        }
+      });
   }
 
   ngOnInit() {
@@ -182,17 +182,17 @@ export class ListArticuloComponent implements OnInit {
       showCancelButton: true,
     };
     Swal(opt)
-    .then((willDelete) => {
+      .then((willDelete) => {
 
-      if (willDelete.value) {
-        this.produccionAcademicaService.delete('articulo/', event.data).subscribe(res => {
-          if (res !== null) {
-            this.loadData();
-            this.showToast('info', 'deleted', 'Articulo deleted');
+        if (willDelete.value) {
+          this.produccionAcademicaService.delete('articulo/', event.data).subscribe(res => {
+            if (res !== null) {
+              this.loadData();
+              this.showToast('info', 'deleted', 'Articulo deleted');
             }
-         });
-      }
-    });
+          });
+        }
+      });
   }
 
   activetab(): void {

@@ -1,4 +1,3 @@
-
 export class ValorNota {
   Id: number;
   NotasIdioma: number;

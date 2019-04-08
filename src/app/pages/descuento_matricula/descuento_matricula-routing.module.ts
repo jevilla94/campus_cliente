@@ -5,8 +5,6 @@ import { ListDescuentoMatriculaComponent } from './list-descuento_matricula/list
 import { CrudDescuentoMatriculaComponent } from './crud-descuento_matricula/crud-descuento_matricula.component';
 // import { ViewDescuentoMatriculaComponent } from './view-descuento_matricula/view-descuento_matricula.component';
 
-
-
 const routes: Routes = [{
   path: '',
   component: DescuentoMatriculaComponent,
@@ -21,10 +19,10 @@ const routes: Routes = [{
 
 @NgModule({
   imports: [
-      RouterModule.forChild(routes),
+    RouterModule.forChild(routes),
   ],
   exports: [
-      RouterModule,
+    RouterModule,
   ],
 })
 

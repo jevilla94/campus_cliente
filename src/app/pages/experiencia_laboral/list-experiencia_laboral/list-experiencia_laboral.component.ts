@@ -97,7 +97,7 @@ export class ListExperienciaLaboralComponent implements OnInit {
 
   loadData(): void {
     this.loading = true;
-     this.experienciaService.get('experiencia_laboral/?query=Persona:' + this.eid).subscribe(res => {
+    this.experienciaService.get('experiencia_laboral/?query=Persona:' + this.eid).subscribe(res => {
       if (res !== null) {
         this.data = <Array<any>>res;
         this.data.forEach(element => {
@@ -109,7 +109,7 @@ export class ListExperienciaLaboralComponent implements OnInit {
             this.getPercentage(1);
             this.source.load(this.data);
           },
-          (error: HttpErrorResponse) => {
+            (error: HttpErrorResponse) => {
               Swal({
                 type: 'error',
                 title: error.status + '',
@@ -119,11 +119,11 @@ export class ListExperienciaLaboralComponent implements OnInit {
                   this.translate.instant('GLOBAL.nombre_empresa'),
                 confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
               });
-          });
+            });
         });
       }
     },
-    (error: HttpErrorResponse) => {
+      (error: HttpErrorResponse) => {
         Swal({
           type: 'error',
           title: error.status + '',
@@ -132,7 +132,7 @@ export class ListExperienciaLaboralComponent implements OnInit {
             this.translate.instant('GLOBAL.experiencia_laboral'),
           confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
         });
-    });
+      });
   }
 
   ngOnInit() {
@@ -185,15 +185,15 @@ export class ListExperienciaLaboralComponent implements OnInit {
     Swal(opt)
       .then((willDelete) => {
         if (willDelete.value) {
-           this.experienciaService.delete('experiencia_laboral', event.data).subscribe(res => {
+          this.experienciaService.delete('experiencia_laboral', event.data).subscribe(res => {
             if (res !== null) {
               this.loadData();
               this.showToast('info', this.translate.instant('GLOBAL.eliminar'),
-              this.translate.instant('GLOBAL.experiencia_laboral') + ' ' +
-              this.translate.instant('GLOBAL.confirmarEliminar'));
+                this.translate.instant('GLOBAL.experiencia_laboral') + ' ' +
+                this.translate.instant('GLOBAL.confirmarEliminar'));
             }
           },
-          (error: HttpErrorResponse) => {
+            (error: HttpErrorResponse) => {
               Swal({
                 type: 'error',
                 title: error.status + '',
@@ -202,9 +202,9 @@ export class ListExperienciaLaboralComponent implements OnInit {
                   this.translate.instant('GLOBAL.experiencia_laboral'),
                 confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
               });
-          });
+            });
         }
-    });
+      });
   }
 
   private showToast(type: string, title: string, body: string) {
