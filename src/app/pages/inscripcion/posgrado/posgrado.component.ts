@@ -237,6 +237,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.info_caracteristica = false;
         this.show_acad = false;
         this.show_expe = true;
+        this.info_persona = false;
         this.show_proy = false;
         this.show_desc = false;
         this.show_prod = false;
@@ -247,6 +248,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.info_caracteristica = false;
         this.show_profile = false;
         this.show_acad = true;
+        this.info_persona = false;
         this.show_expe = false;
         this.show_proy = false;
         this.show_desc = false;
@@ -259,20 +261,21 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.show_expe = false;
         this.info_contacto = false;
         this.info_caracteristica = false;
-        this.info_persona = true;
+        this.info_persona = false;
         this.show_desc = false;
         this.show_proy = false;
         this.show_prod = true;
         break;
-      case 'matricula_descuentos':
+      case 'descuento_matricula':
         this.show_info = false;
         this.show_profile = false;
         this.show_acad = false;
         this.show_expe = false;
         this.info_contacto = false;
         this.info_caracteristica = false;
-        this.show_proy = false;
+        this.info_persona = false;
         this.show_desc = true;
+        this.show_proy = false;
         this.show_prod = false;
         break;
       case 'propuesta_grado':
@@ -283,6 +286,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.info_contacto = false;
         this.info_caracteristica = false;
         this.show_proy = true;
+        this.info_persona = false;
         this.show_desc = false;
         this.show_prod = false;
         break;
@@ -296,6 +300,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.show_expe = false;
         this.show_proy = false;
         this.show_prod = false;
+        this.show_desc = false;
         break;
       default:
         this.show_info = false;
@@ -307,6 +312,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.show_expe = false;
         this.show_proy = false;
         this.show_prod = false;
+        this.show_desc = false;
         break;
     }
   }

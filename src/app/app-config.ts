@@ -17,6 +17,7 @@ export const Config = {
         ADMISIONES_SERVICE: 'http://localhost:8887/v1/',
         PROGRAMA_ACADEMICO_SERVICE: 'http://localhost:8101/v1/',
         FORMACION_ACADEMICA_SERVICE: 'http://localhost:8098/v1/',
+        MATRICULA_DESCUENTOS_SERVICE: 'http://localhost:8107/v1/',
         PRODUCCION_ACADEMICA_SERVICE: 'http://localhost:8080/v1/',
         IDIOMA_SERVICE: 'http://localhost:8103/v1/',
         CONFIGURACION_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/api/configuracion_crud_api/v1/',

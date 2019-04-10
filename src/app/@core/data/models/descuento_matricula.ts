@@ -6,7 +6,7 @@ export class DescuentoMatricula {
   Enlace: number;
   Descuento: number;
   Ente: number;
-  DocumentoSoporte: String;
+  SoporteDescuento: String;
   Tipodescuentomatricula: TipoDescuentoMatricula;
   Autorizado: boolean;
 }

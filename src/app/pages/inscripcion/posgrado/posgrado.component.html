@@ -1,6 +1,6 @@
 <div class="col-md-12 col-lg-12" id="demo-capture">
   <nb-card [hidden]="show_profile || show_info || show_acad || show_expe ||
-    show_proy || show_prod">
+    show_proy || show_prod || show_desc">
     <nb-card-header>
       <!-- select -->
       <mat-form-field style="width: 100%;">
@@ -58,8 +58,8 @@
 
         <div class="col-sm-6 col-md-4 col-lg-3" align="center">
           <nb-card class="exp-card" *ngIf="info_ente_id"
-            (click)="perfil_editar('matricula_descuentos')">
-            <nb-card-header>{{ 'GLOBAL.matricula_descuentos' | translate }}</nb-card-header>
+            (click)="perfil_editar('descuento_matricula')">
+            <nb-card-header>{{ 'GLOBAL.descuento_matricula' | translate }}</nb-card-header>
             <nb-card-body class="icon-form">
               <i class="fa fa-dollar fa-5x"></i>
               <p class="percentage">{{percentage_desc}} %</p>
@@ -255,7 +255,7 @@
         </div>
       </div>
       <nb-tabset fullWidth (changeTab)="selectTab($event)">
-        <nb-tab tabTitle="{{ 'GLOBAL.matricula_descuentos' | translate }}">
+        <nb-tab tabTitle="{{ 'GLOBAL.descuento_matricula' | translate }}">
           <ngx-list-descuento-matricula (result)="setPercentage_desc($event,0)">
           </ngx-list-descuento-matricula>
         </nb-tab>

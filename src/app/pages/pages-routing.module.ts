@@ -29,6 +29,10 @@ const routes: Routes = [{
       loadChildren: './notificacion/notificacion.module#NotificacionModule',
     },
     {
+      path: 'descuento_matricula',
+      loadChildren: './descuento_matricula/descuento_matricula.module#DescuentoMatriculaModule',
+    },
+    {
       path: 'propuesta_grado',
       loadChildren: './propuesta_grado/propuesta_grado.module#PropuestaGradoModule',
     },

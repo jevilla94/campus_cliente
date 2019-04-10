@@ -22,7 +22,7 @@ export class CrudDescuentoMatriculaComponent implements OnInit {
   config: ToasterConfig;
   descuento_matricula_id: number;
   filesUp: any;
-  DocumentoSoporte: any;
+  SoporteDescuento: any;
   estado: number;
 
   @Input('descuento_matricula_id')
@@ -113,17 +113,17 @@ export class CrudDescuentoMatriculaComponent implements OnInit {
           if (res !== null) {
             const temp = <DescuentoMatricula>res[0];
             const files = []
-            if (temp.DocumentoSoporte + '' !== '0') {
-              files.push({ Id: temp.Enlace, key: 'DocumentoSoporte' });
+            if (temp.SoporteDescuento + '' !== '0') {
+              files.push({ Id: temp.Enlace, key: 'SoporteDescuento' });
             }
             this.nuxeoService.getDocumentoById$(files, this.documentoService)
               .subscribe(response => {
                 const filesResponse = <any>response;
-                // if ( (Object.keys(filesResponse).length !== 0) && (filesResponse['DocumentoSoporte'] !== undefined) ) {
+                // if ( (Object.keys(filesResponse).length !== 0) && (filesResponse['SoporteDescuento'] !== undefined) ) {
                 if (Object.keys(filesResponse).length === files.length) {
                   this.info_descuento_matricula = <any>res// temp;
-                  this.DocumentoSoporte = this.info_descuento_matricula.Soporte;
-                  this.info_descuento_matricula.Soporte = filesResponse['DocumentoSoporte'] + '';
+                  this.SoporteDescuento = this.info_descuento_matricula.Soporte;
+                  this.info_descuento_matricula.Soporte = filesResponse['SoporteDescuento'] + '';
                 }
               },
                 (error: HttpErrorResponse) => {
@@ -174,7 +174,7 @@ export class CrudDescuentoMatriculaComponent implements OnInit {
           this.info_descuento_matricula = <any>descuentoMatricula;
           const files = [];
           if (this.info_descuento_matricula.Soporte.file !== undefined) {
-            files.push({ file: this.info_descuento_matricula.Soporte.file, documento: this.DocumentoSoporte, key: 'DocumentoSoporte' });
+            files.push({ file: this.info_descuento_matricula.Soporte.file, documento: this.SoporteDescuento, key: 'SoporteDescuento' });
             // console.info ('FILES: ' + JSON.stringify(files) + 'Longitud:' + files.length);
           }
           if (files.length !== 0) {
@@ -184,8 +184,8 @@ export class CrudDescuentoMatriculaComponent implements OnInit {
                   const documentos_actualizados = <any>response;
                   this.descuentosPosgradoService.put('descuento_matricula', this.info_descuento_matricula)
                     .subscribe(res => {
-                      if (documentos_actualizados['DocumentoSoporte'] !== undefined) {
-                        this.info_descuento_matricula.Soporte = documentos_actualizados['DocumentoSoporte'].url + '';
+                      if (documentos_actualizados['SoporteDescuento'] !== undefined) {
+                        this.info_descuento_matricula.Soporte = documentos_actualizados['SoporteDescuento'].url + '';
                       }
                       this.loadDescuentoMatricula();
                       this.loading = false;
@@ -219,7 +219,7 @@ export class CrudDescuentoMatriculaComponent implements OnInit {
                   });
                 });
           } else {
-            this.info_descuento_matricula.Soporte = this.DocumentoSoporte;
+            this.info_descuento_matricula.Soporte = this.SoporteDescuento;
             this.descuentosPosgradoService.put('descuentoMatricula', this.info_descuento_matricula)
               .subscribe(res => {
                 this.eventChange.emit(true);
@@ -306,7 +306,7 @@ export class CrudDescuentoMatriculaComponent implements OnInit {
           // const valor =  descuentoMatricula.TipoDescuentoMatricula.Id;
           if (this.info_descuento_matricula.Soporte.file !== undefined) {
             files.push({
-              nombre: this.autenticationService.getPayload().sub, key: 'DocumentoSoporte',
+              nombre: this.autenticationService.getPayload().sub, key: 'SoporteDescuento',
               file: this.info_descuento_matricula.Soporte.file, IdDocumento: 7,
             });
           }
@@ -314,8 +314,8 @@ export class CrudDescuentoMatriculaComponent implements OnInit {
             .subscribe(response => {
               if (Object.keys(response).length === files.length) {
                 const filesUp = <any>response;
-                if (filesUp['DocumentoSoporte'] !== undefined) {
-                  this.info_descuento_matricula.Enlace = filesUp['DocumentoSoporte'].Id;
+                if (filesUp['SoporteDescuento'] !== undefined) {
+                  this.info_descuento_matricula.Enlace = filesUp['SoporteDescuento'].Id;
                 }
                 this.descuentosPosgradoService.post('descuento_matricula', this.info_descuento_matricula)
                   .subscribe(res => {
