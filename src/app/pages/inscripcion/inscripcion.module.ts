@@ -28,6 +28,7 @@ import { CrudExperienciaLaboralComponent } from '../experiencia_laboral/crud-exp
 import { ProgramaAcademicoService } from '../../@core/data/programa_academico.service';
 import { ProduccionAcademicaService } from '../../@core/data/produccion_academica.service';
 import { DescuentosPosgradoService } from '../../@core/data/descuentos_posgrado.service';
+import { DocumentoProgramaService } from '../../@core/data/documentos_programa.service';
 import { PropuestaGradoModule } from '../propuesta_grado/propuesta_grado.module';
 import { CrudPropuestaGradoComponent } from '../propuesta_grado/crud-propuesta_grado/crud-propuesta_grado.component';
 import { LibroModule } from '../libro/libro.module';
@@ -55,6 +56,9 @@ import { CrudProduccionArtesArquDisenoComponent } from '../produccion_artes_arqu
 import { DescuentoMatriculaModule } from '../descuento_matricula/descuento_matricula.module';
 import { ListDescuentoMatriculaComponent } from '../descuento_matricula/list-descuento_matricula/list-descuento_matricula.component';
 import { CrudDescuentoMatriculaComponent } from '../descuento_matricula/crud-descuento_matricula/crud-descuento_matricula.component';
+import { DocumentoProgramaModule } from '../documento_programa/documento_programa.module';
+import { ListDocumentoProgramaComponent } from '../documento_programa/list-documento_programa/list-documento_programa.component';
+import { CrudDocumentoProgramaComponent } from '../documento_programa/crud-documento_programa/crud-documento_programa.component';
 
 @NgModule({
   imports: [
@@ -78,6 +82,7 @@ import { CrudDescuentoMatriculaComponent } from '../descuento_matricula/crud-des
     ProduccionTecnicaModule,
     ProduccionArtesArquDisenoModule,
     DescuentoMatriculaModule,
+    DocumentoProgramaModule,
   ],
   declarations: [
     ...routedComponents,
@@ -92,6 +97,7 @@ import { CrudDescuentoMatriculaComponent } from '../descuento_matricula/crud-des
     ProgramaAcademicoService,
     ProduccionAcademicaService,
     DescuentosPosgradoService,
+    DocumentoProgramaService,
   ],
   entryComponents: [
     ListIdiomasComponent,
@@ -120,6 +126,8 @@ import { CrudDescuentoMatriculaComponent } from '../descuento_matricula/crud-des
     CrudOtraPublicacionComponent,
     ListDescuentoMatriculaComponent,
     CrudDescuentoMatriculaComponent,
+    ListDocumentoProgramaComponent,
+    CrudDocumentoProgramaComponent,
   ],
 })
 export class InscripcionModule { }

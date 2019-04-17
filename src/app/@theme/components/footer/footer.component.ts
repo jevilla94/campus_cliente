@@ -13,8 +13,8 @@ export class FooterComponent {
     this.normatividad = [{
       subtitle: 'Académica',
       list: [{
-        label: 'Derechos pecuniarios 2018',
-        url: 'http://sgral.udistrital.edu.co/xdata/sgral/Derechos_Pecuniarios2018.pdf',
+        label: 'Derechos pecuniarios 2019',
+        url: 'http://sgral.udistrital.edu.co/xdata/sgral/Derechos_Pecuniarios2019.pdf',
       }, {
         label: 'Estatuto Académico',
         url: 'http://sgral.udistrital.edu.co/xdata/csu/acu_1996-004.pdf',

@@ -1,5 +1,5 @@
 export let FORM_PRODUCCION_ARTES_ARQU_DISENO = {
-    titulo: 'ProduccionArtesArquDiseno',
+    // titulo: 'ProduccionArtesArquDiseno',
     tipo_formulario: 'mini',
     btn: 'Guardar',
     alertas: true,
@@ -7,7 +7,7 @@ export let FORM_PRODUCCION_ARTES_ARQU_DISENO = {
     campos: [
         {
             etiqueta: 'input',
-            claseGrid: 'col-5',
+            claseGrid: 'col-lg-12 col-md-12 col-sm-12 col-xs-12',
             nombre: 'Nombre',
             label_i18n: 'titulo_produccion_artes',
             placeholder_i18n: 'placeholder_produccion_artes',
@@ -16,10 +16,10 @@ export let FORM_PRODUCCION_ARTES_ARQU_DISENO = {
         },
         {
             etiqueta: 'select',
-            claseGrid: 'col-5',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-12 col-xs-12',
             nombre: 'TipoDisciplina',
-            label_i18n: 'tipodisciplina',
-            placeholder_i18n: 'tipodisciplina',
+            label_i18n: 'tipo_disciplina',
+            placeholder_i18n: 'tipo_disciplina',
             requerido: true,
             tipo: 'TipoDisciplina',
             key: 'Nombre',
@@ -27,7 +27,7 @@ export let FORM_PRODUCCION_ARTES_ARQU_DISENO = {
         },
         {
             etiqueta: 'select',
-            claseGrid: 'col-2',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-12 col-xs-12',
             nombre: 'Mes',
             label_i18n: 'mes',
             placeholder_i18n: 'mes',
@@ -52,7 +52,7 @@ export let FORM_PRODUCCION_ARTES_ARQU_DISENO = {
         },
         {
             etiqueta: 'input',
-            claseGrid: 'col-1',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-12 col-xs-12',
             nombre: 'Ano',
             label_i18n: 'ano',
             placeholder_i18n: 'ano',
@@ -61,7 +61,7 @@ export let FORM_PRODUCCION_ARTES_ARQU_DISENO = {
         },
         {
             etiqueta: 'textarea',
-            claseGrid: 'col-12',
+            claseGrid: 'col-lg-12 col-md-12 col-sm-12 col-xs-12',
             nombre: 'Descripcion',
             label_i18n: 'descripcion',
             placeholder_i18n: 'descripcion',

@@ -27,6 +27,9 @@ $icon-top-color-ud: #bb0b0b;
 
       &:hover span {
         opacity: 0.5;
+        @include nb-for-theme(ud) {
+          opacity: 0.5;
+        }
       }
 
       i {

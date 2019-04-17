@@ -1,5 +1,5 @@
 export let FORM_PRODUCCION_TECNICA = {
-    titulo: 'ProduccionTecnica',
+    // titulo: 'ProduccionTecnica',
     tipo_formulario: 'mini',
     btn: 'Guardar',
     alertas: true,
@@ -7,10 +7,10 @@ export let FORM_PRODUCCION_TECNICA = {
     campos: [
         {
             etiqueta: 'select',
-            claseGrid: 'col-4',
+            claseGrid: 'col-lg-6 col-md-6 col-sm-12 col-xs-12',
             nombre: 'TipoProduccionTecnica',
-            label_i18n: 'tipoproducciontecnica',
-            placeholder_i18n: 'tipoproducciontecnica',
+            label_i18n: 'tipo_produccion_tecnica',
+            placeholder_i18n: 'tipo_produccion_tecnica',
             requerido: true,
             tipo: 'TipoProduccionTecnica',
             key: 'Nombre',
@@ -18,7 +18,7 @@ export let FORM_PRODUCCION_TECNICA = {
         },
         {
             etiqueta: 'input',
-            claseGrid: 'col-8',
+            claseGrid: 'col-lg-6 col-md-6 col-sm-12 col-xs-12',
             nombre: 'Nombre',
             label_i18n: 'titulo_produccion_tecnica',
             placeholder_i18n: 'placeholder_titulo_produccion_tecnica',
@@ -27,7 +27,7 @@ export let FORM_PRODUCCION_TECNICA = {
         },
         {
             etiqueta: 'input',
-            claseGrid: 'col-2',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-12 col-xs-12',
             nombre: 'Ano',
             label_i18n: 'ano',
             placeholder_i18n: 'ano',
@@ -37,7 +37,7 @@ export let FORM_PRODUCCION_TECNICA = {
         },
         {
             etiqueta: 'select',
-            claseGrid: 'col-2',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-12 col-xs-12',
             nombre: 'Mes',
             label_i18n: 'mes',
             placeholder_i18n: 'mes',
@@ -62,7 +62,7 @@ export let FORM_PRODUCCION_TECNICA = {
         },
         {
             etiqueta: 'select',
-            claseGrid: 'col-2',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-12 col-xs-12',
             nombre: 'Ubicacion',
             label_i18n: 'ubicacion',
             placeholder_i18n: 'ubicacion',
@@ -74,7 +74,7 @@ export let FORM_PRODUCCION_TECNICA = {
         },
         {
             etiqueta: 'textarea',
-            claseGrid: 'col-12',
+            claseGrid: 'col-lg-12 col-md-12 col-sm-12 col-xs-12',
             nombre: 'Descripcion',
             label_i18n: 'descripcion',
             placeholder_i18n: 'descripcion',

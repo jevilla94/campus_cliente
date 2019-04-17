@@ -1,5 +1,5 @@
 export let FORM_OTRA_PUBLICACION = {
-    titulo: 'OtraPublicacion',
+    // titulo: 'OtraPublicacion',
     tipo_formulario: 'mini',
     btn: 'Guardar',
     alertas: true,
@@ -7,7 +7,7 @@ export let FORM_OTRA_PUBLICACION = {
     campos: [
         {
             etiqueta: 'input',
-            claseGrid: 'col-6',
+            claseGrid: 'col-lg-6 col-md-6 col-sm-12 col-xs-12',
             nombre: 'Titulo',
             label_i18n: 'titulo_otra_publicacion',
             placeholder_i18n: 'placeholder_otra_publicacion',
@@ -16,7 +16,7 @@ export let FORM_OTRA_PUBLICACION = {
         },
         {
             etiqueta: 'input',
-            claseGrid: 'col-6',
+            claseGrid: 'col-lg-6 col-md-6 col-sm-12 col-xs-12',
             nombre: 'Autor',
             label_i18n: 'autor',
             placeholder_i18n: 'autor',
@@ -25,7 +25,7 @@ export let FORM_OTRA_PUBLICACION = {
         },
         {
             etiqueta: 'input',
-            claseGrid: 'col-2',
+            claseGrid: 'col-lg-3 col-md-3 col-sm-12 col-xs-12',
             nombre: 'Ano',
             label_i18n: 'ano',
             placeholder_i18n: 'ano',
@@ -35,7 +35,7 @@ export let FORM_OTRA_PUBLICACION = {
         },
         {
             etiqueta: 'select',
-            claseGrid: 'col-2',
+            claseGrid: 'col-lg-3 col-md-3 col-sm-12 col-xs-12',
             nombre: 'Mes',
             label_i18n: 'mes',
             placeholder_i18n: 'mes',
@@ -60,7 +60,7 @@ export let FORM_OTRA_PUBLICACION = {
         },
         {
             etiqueta: 'select',
-            claseGrid: 'col-2',
+            claseGrid: 'col-lg-6 col-md-6 col-sm-12 col-xs-12',
             nombre: 'Tipo',
             label_i18n: 'tipo_otra_publicacion',
             placeholder_i18n: 'placeholder_tipo_otra_publicacion',

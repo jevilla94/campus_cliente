@@ -8,6 +8,7 @@ import { ProgramaAcademicoService } from '../../../@core/data/programa_academico
 import { AdmisionesService } from '../../../@core/data/admisiones.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Admision } from '../../../@core/data/models/admision';
+import { IMAGENES } from './imagenes';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
 import * as jsPDF from 'jspdf';
@@ -35,6 +36,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
   percentage_proy: number = 0;
   percentage_prod: number = 0;
   percentage_desc: number = 0;
+  percentage_docu: number = 0;
   percentage_total: number = 0;
 
   total: boolean = false;
@@ -45,6 +47,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
   percentage_tab_proy = [];
   percentage_tab_prod = [];
   percentage_tab_desc = [];
+  percentage_tab_docu = [];
   posgrados = [];
 
   show_info = false;
@@ -54,6 +57,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
   show_proy = false;
   show_prod = false;
   show_desc = false;
+  show_docu = false;
 
   info_contacto: boolean;
   info_persona: boolean;
@@ -61,6 +65,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
   button_politica: boolean = true;
   programa_seleccionado: any;
   selectedValue: any;
+  imagenes: any;
 
   constructor(
     private autenticacion: ImplicitAutenticationService,
@@ -69,12 +74,13 @@ export class PosgradoComponent implements OnInit, OnChanges {
     private campusMidService: CampusMidService,
     private admisionesService: AdmisionesService,
     private programaService: ProgramaAcademicoService) {
+    this.imagenes = IMAGENES;
     this.translate = translate;
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
     });
     this.getInfoPersonaId();
     this.loadInfoPostgrados();
-    this.total = true;
+    this.total = false; // true;
   }
 
   setPercentage_info(number, tab) {
@@ -107,6 +113,12 @@ export class PosgradoComponent implements OnInit, OnChanges {
     this.setPercentage_total();
   }
 
+  setPercentage_docu(number, tab) {
+    this.percentage_tab_docu[tab] = (number * 100) / 1;
+    this.percentage_docu = Math.round(UtilidadesService.getSumArray(this.percentage_tab_docu));
+    this.setPercentage_total();
+  }
+
   setPercentage_prod(number, tab) {
     this.percentage_tab_prod[tab] = (number * 100) / 1;
     this.percentage_prod = Math.round(UtilidadesService.getSumArray(this.percentage_tab_prod));
@@ -114,8 +126,11 @@ export class PosgradoComponent implements OnInit, OnChanges {
   }
 
   setPercentage_total() {
-    this.percentage_total = Math.round(UtilidadesService.getSumArray(this.percentage_tab_info)) / 2;
-    this.percentage_total += Math.round(UtilidadesService.getSumArray(this.percentage_tab_acad)) / 2;
+    this.percentage_total = Math.round(UtilidadesService.getSumArray(this.percentage_tab_info)) / 5;
+    this.percentage_total += Math.round(UtilidadesService.getSumArray(this.percentage_tab_acad)) / 5;
+    this.percentage_total += Math.round(UtilidadesService.getSumArray(this.percentage_tab_docu)) / 5;
+    this.percentage_total += Math.round(UtilidadesService.getSumArray(this.percentage_tab_desc)) / 5;
+    this.percentage_total += Math.round(UtilidadesService.getSumArray(this.percentage_tab_proy)) / 5;
     if (this.percentage_total >= 100) {
       this.total = false;
     }
@@ -204,6 +219,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.info_persona = false;
         this.show_proy = false;
         this.show_desc = false;
+        this.show_docu = false;
         this.show_prod = false;
         break;
       case 'info_caracteristica':
@@ -215,6 +231,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.info_caracteristica = true;
         this.info_persona = false;
         this.show_proy = false;
+        this.show_docu = false;
         this.show_desc = false;
         this.show_prod = false;
         break;
@@ -227,6 +244,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.info_caracteristica = false;
         this.info_persona = true;
         this.show_desc = false;
+        this.show_docu = false;
         this.show_proy = false;
         this.show_prod = false;
         break;
@@ -236,6 +254,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.info_contacto = false;
         this.info_caracteristica = false;
         this.show_acad = false;
+        this.show_docu = false;
         this.show_expe = true;
         this.info_persona = false;
         this.show_proy = false;
@@ -244,6 +263,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
         break;
       case 'formacion_academica':
         this.show_info = false;
+        this.show_docu = false;
         this.info_contacto = false;
         this.info_caracteristica = false;
         this.show_profile = false;
@@ -259,6 +279,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.show_profile = false;
         this.show_acad = false;
         this.show_expe = false;
+        this.show_docu = false;
         this.info_contacto = false;
         this.info_caracteristica = false;
         this.info_persona = false;
@@ -266,12 +287,26 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.show_proy = false;
         this.show_prod = true;
         break;
+      case 'documento_programa':
+        this.show_info = false;
+        this.show_profile = false;
+        this.show_acad = false;
+        this.show_expe = false;
+        this.info_contacto = false;
+        this.show_docu = true;
+        this.info_caracteristica = false;
+        this.info_persona = false;
+        this.show_desc = false;
+        this.show_proy = false;
+        this.show_prod = false;
+        break;
       case 'descuento_matricula':
         this.show_info = false;
         this.show_profile = false;
         this.show_acad = false;
         this.show_expe = false;
         this.info_contacto = false;
+        this.show_docu = false;
         this.info_caracteristica = false;
         this.info_persona = false;
         this.show_desc = true;
@@ -281,6 +316,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
       case 'propuesta_grado':
         this.show_info = false;
         this.show_profile = false;
+        this.show_docu = false;
         this.show_acad = false;
         this.show_expe = false;
         this.info_contacto = false;
@@ -295,6 +331,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
         this.show_profile = true;
         this.show_acad = false;
         this.info_contacto = false;
+        this.show_docu = false;
         this.info_caracteristica = false;
         this.show_desc = false;
         this.show_expe = false;
@@ -304,6 +341,7 @@ export class PosgradoComponent implements OnInit, OnChanges {
         break;
       default:
         this.show_info = false;
+        this.show_docu = false;
         this.show_profile = false;
         this.show_acad = false;
         this.info_contacto = false;
@@ -385,20 +423,29 @@ export class PosgradoComponent implements OnInit, OnChanges {
     const data = document.getElementById('demo-capture');
     html2canvas(data).then(canvas => {
       const imgWidth = 208;
-      // const pageHeight = 295;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      // const heightLeft = imgHeight;
+      const imgData = this.imagenes.escudo;
+
       const contentDataURL = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'letter');
-      const position = 60;
       pdf.setFontSize(20);
-      pdf.text(`Comprobante de Inscripcion`, 50, 15);
-      pdf.setFontSize(10);
-      pdf.text(`Nombres: ${this.datos_persona['PrimerNombre']} ${this.datos_persona['SegundoNombre']}`, 10, 35);
-      pdf.text(`Apellidos: ${this.datos_persona['PrimerApellido']} ${this.datos_persona['SegundoApellido']}`, 10, 40);
-      pdf.text(`${this.datos_persona['TipoIdentificacion']['CodigoAbreviacion']}: ${this.datos_persona['NumeroDocumento']}`, 10, 45);
-      pdf.text(`Imagen de la plataforma : `, 10, 55);
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.addImage(imgData, 'PNG', 10, 10, 92, 35);
+      pdf.text(`Comprobante de inscripción`, 65, 55);
+      pdf.setFontSize(12);
+
+      pdf.text(`Nombres: ${this.datos_persona['PrimerNombre']} ${this.datos_persona['SegundoNombre']}`, 15, 68);
+      pdf.text(`Apellidos: ${this.datos_persona['PrimerApellido']} ${this.datos_persona['SegundoApellido']}`, 15, 75);
+      pdf.text(`${this.datos_persona['TipoIdentificacion']['CodigoAbreviacion']}: ${this.datos_persona['NumeroDocumento']}`, 15, 82);
+      pdf.text(`Fecha de inscripción: ${this.datos_persona['TipoIdentificacion']['CodigoAbreviacion']}: ${this.datos_persona['NumeroDocumento']}`, 15, 89);
+      pdf.text(`Programa académico: ${this.datos_persona['TipoIdentificacion']['CodigoAbreviacion']}: ${this.datos_persona['NumeroDocumento']}`, 15, 96);
+
+      pdf.text(`Formulario: `, 15, 103);
+      pdf.addImage(contentDataURL, 'PNG', 0, 108, imgWidth, imgHeight);
+      pdf.setFontSize(9);
+      pdf.text(`Universidad Distrital Francisco José de Caldas`, 78, 256);
+      pdf.text(`Carrera 7 # 40B - 53 - Bogotá D.C. - Colombia`, 78, 262);
+      pdf.text(`Teléfono (Colombia) : +57 3 323-9300`, 83, 267);
+
       const nombre_archivo = `${this.datos_persona['PrimerNombre']}_${this.datos_persona['NumeroDocumento']}`;
       pdf.save(`${nombre_archivo}.pdf`);
     });

@@ -59,8 +59,6 @@ export class CrudLibroComponent implements OnInit {
     this.loadOptionsCiudadPublicacion();
     this.ente = this.user.getEnte();
     this.activarTituloCapitulo = false;
-    // console.info('EnteActual: ' + this.ente);
-
   }
 
   construirForm() {
@@ -76,6 +74,16 @@ export class CrudLibroComponent implements OnInit {
     this.translate.use(language);
   }
 
+  getIndexForm(nombre: String): number {
+    for (let index = 0; index < this.formLibro.campos.length; index++) {
+      const element = this.formLibro.campos[index];
+      if (element.nombre === nombre) {
+        return index
+      }
+    }
+    return 0;
+  }
+
   loadOptionsTipopublicacion(): void {
     let tipopublicacion: Array<any> = [];
     this.produccionAcademicaService.get('tipo_publicacion_libro/?limit=0')
@@ -84,8 +92,20 @@ export class CrudLibroComponent implements OnInit {
           tipopublicacion = <Array<TipoPublicacionLibro>>res;
         }
         this.formLibro.campos[this.getIndexForm('TipoPublicacion')].opciones = tipopublicacion;
-      });
+      },
+        (error: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.libro') + '|' +
+              this.translate.instant('GLOBAL.tipo_publicacion'),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
+        });
   }
+
   loadOptionsMediodivulgacion(): void {
     let mediodivulgacion: Array<any> = [];
     this.produccionAcademicaService.get('medio_divulgacion/?limit=0')
@@ -94,8 +114,20 @@ export class CrudLibroComponent implements OnInit {
           mediodivulgacion = <Array<MedioDivulgacion>>res;
         }
         this.formLibro.campos[this.getIndexForm('MedioDivulgacion')].opciones = mediodivulgacion;
-      });
+      },
+        (error: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.libro') + '|' +
+              this.translate.instant('GLOBAL.medio_divulgacion'),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
+        });
   }
+
   loadOptionsMediopublicacion(): void {
     let mediopublicacion: Array<any> = [];
     this.produccionAcademicaService.get('medio_publicacion/?limit=0')
@@ -104,8 +136,20 @@ export class CrudLibroComponent implements OnInit {
           mediopublicacion = <Array<MedioPublicacion>>res;
         }
         this.formLibro.campos[this.getIndexForm('MedioPublicacion')].opciones = mediopublicacion;
-      });
+      },
+        (error: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.libro') + '|' +
+              this.translate.instant('GLOBAL.medio_publicacion'),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
+        });
   }
+
   loadOptionsCiudadPublicacion(): void {
     let ciudadPublicacion: Array<any> = [];
     this.ubicacionesService.get('lugar/?query=TipoLugar.Id:2')
@@ -120,90 +164,125 @@ export class CrudLibroComponent implements OnInit {
             type: 'error',
             title: error.status + '',
             text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.libro') + '|' +
+              this.translate.instant('GLOBAL.ubicacion'),
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
           });
         });
   }
 
-  getIndexForm(nombre: String): number {
-    for (let index = 0; index < this.formLibro.campos.length; index++) {
-      const element = this.formLibro.campos[index];
-      if (element.nombre === nombre) {
-        return index
-      }
-    }
-    return 0;
-  }
-
-
   public loadLibro(): void {
-    if (this.libro_id !== undefined && this.libro_id !== 0) {
+    this.loading = true;
+    if (this.libro_id !== undefined && this.libro_id !== 0 && this.libro_id.toString() !== '') {
       this.produccionAcademicaService.get('libro/?query=id:' + this.libro_id)
         .subscribe(res => {
           if (res !== null) {
             this.info_libro = <Libro>res[0];
-            // this.datosGet = <InfoContactoGet>res;
-            // this.ciudadP = this.ubicacionesService.get('/lugar/?query=Id:' + this.info_libro.Ubicacion.Id);
-            // this.info_libro = {
-            // Ubicacion: this.ubicacionesService.get('/lugar/?query=Id:' + this.info_libro.Ubicacion.Id),
-            // }
-            // this.info_libro.Ubicacion = this.ubicacionesService.get('/lugar/?query=Id:' + this.info_libro.Ubicacion.Id);
+            this.loading = false;
             console.info('Ciudadela: ' + this.info_libro.Ubicacion);
-            // this.info_libro.Ubicacion=this.UbicacionEnte[0].Lugar.CIUDAD
           }
-        });
+        },
+          (error: HttpErrorResponse) => {
+            Swal({
+              type: 'error',
+              title: error.status + '',
+              text: this.translate.instant('ERROR.' + error.status),
+              footer: this.translate.instant('GLOBAL.cargar') + '-' +
+                this.translate.instant('GLOBAL.libro'),
+              confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+            });
+          });
     } else {
       this.info_libro = undefined;
       this.clean = !this.clean;
+      this.loading = false;
     }
   }
 
   updateLibro(libro: any): void {
-
     const opt: any = {
-      title: 'Update?',
-      text: 'Update Libro!',
+      title: this.translate.instant('GLOBAL.actualizar'),
+      text: this.translate.instant('GLOBAL.actualizar') + '?',
       icon: 'warning',
       buttons: true,
       dangerMode: true,
       showCancelButton: true,
+      confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+      cancelButtonText: this.translate.instant('GLOBAL.cancelar'),
     };
     Swal(opt)
       .then((willDelete) => {
         if (willDelete.value) {
+          this.loading = true;
           this.info_libro = <Libro>libro;
           this.produccionAcademicaService.put('libro', this.info_libro)
             .subscribe(res => {
-              this.loadLibro();
+              this.loading = false;
               this.eventChange.emit(true);
-              this.showToast('info', 'updated', 'Libro updated');
-            });
+              this.loadLibro();
+              this.showToast('info', this.translate.instant('GLOBAL.actualizar'),
+                this.translate.instant('GLOBAL.libro') + ' ' +
+                this.translate.instant('GLOBAL.confirmarActualizar'));
+              this.libro_id = 0;
+            },
+              (error: HttpErrorResponse) => {
+                Swal({
+                  type: 'error',
+                  title: error.status + '',
+                  text: this.translate.instant('ERROR.' + error.status),
+                  footer: this.translate.instant('GLOBAL.actualizar') + '-' +
+                    this.translate.instant('GLOBAL.libro'),
+                  confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                });
+              });
         }
       });
   }
 
   createLibro(libro: any): void {
     const opt: any = {
-      title: 'Create?',
-      text: 'Create Libro!',
+      title: this.translate.instant('GLOBAL.crear'),
+      text: this.translate.instant('GLOBAL.crear') + '?',
       icon: 'warning',
       buttons: true,
       dangerMode: true,
       showCancelButton: true,
+      confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+      cancelButtonText: this.translate.instant('GLOBAL.cancelar'),
     };
     Swal(opt)
       .then((willDelete) => {
+        this.loading = true;
         if (willDelete.value) {
           this.info_libro = <Libro>libro;
           this.info_libro.Persona = this.ente;
-          console.info('EnteGuardado: ' + this.ente);
-          this.info_libro.Persona = this.ente;
           this.produccionAcademicaService.post('libro', this.info_libro)
             .subscribe(res => {
-              this.info_libro = <Libro>res;
-              this.eventChange.emit(true);
-              this.showToast('info', 'created', 'Libro created');
-            });
+              const r = <any>res;
+              if (r !== null && r.Type !== 'error') {
+                this.info_libro = <Libro>res;
+                this.loading = false;
+                this.eventChange.emit(true);
+                this.showToast('info', this.translate.instant('GLOBAL.crear'),
+                  this.translate.instant('GLOBAL.libro') + ' ' +
+                  this.translate.instant('GLOBAL.confirmarCrear'));
+                this.clean = !this.clean;
+              } else {
+                this.showToast('error', this.translate.instant('GLOBAL.error'),
+                  this.translate.instant('GLOBAL.error'));
+              }
+            },
+              (error: HttpErrorResponse) => {
+                Swal({
+                  type: 'error',
+                  title: error.status + '',
+                  text: this.translate.instant('ERROR.' + error.status),
+                  footer: this.translate.instant('GLOBAL.crear') + '-' +
+                    this.translate.instant('GLOBAL.libro'),
+                  confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                });
+              });
         }
       });
   }
@@ -228,6 +307,11 @@ export class CrudLibroComponent implements OnInit {
     }
   }
 
+  setPercentage(event) {
+    this.percentage = event;
+    this.result.emit(this.percentage);
+  }
+
   private showToast(type: string, title: string, body: string) {
     this.config = new ToasterConfig({
       // 'toast-top-full-width', 'toast-bottom-full-width', 'toast-top-left', 'toast-top-center'
@@ -248,5 +332,4 @@ export class CrudLibroComponent implements OnInit {
     };
     this.toasterService.popAsync(toast);
   }
-
 }

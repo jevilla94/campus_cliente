@@ -1,6 +1,6 @@
-<div class="col-md-12 col-lg-12" id="demo-capture">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
   <nb-card [hidden]="show_profile || show_info || show_acad || show_expe ||
-    show_proy || show_prod || show_desc">
+    show_proy || show_prod || show_desc || show_docu">
     <nb-card-header>
       <!-- select -->
       <mat-form-field style="width: 100%;">
@@ -12,7 +12,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div class="row">
+      <div class="row" id="demo-capture">
         <div class="col-sm-6 col-md-4 col-lg-3" align="center">
           <nb-card class="exp-card" (click)="perfil_editar('info_persona')">
             <nb-card-header>{{ 'GLOBAL.info_basica' | translate }}</nb-card-header>
@@ -24,8 +24,8 @@
         </div>
 
         <div class="col-sm-6 col-md-4 col-lg-3" align="center">
-          <nb-card class="exp-card" *ngIf="info_ente_id"
-            (click)="perfil_editar('formacion_academica')">
+          <nb-card class="exp-card"
+            (click)="perfil_editar('formacion_academica')"><!--//*ngIf="info_ente_id"-->
             <nb-card-header>{{ 'GLOBAL.formacion_academica' | translate }}</nb-card-header>
             <nb-card-body class="icon-form">
               <i class="fa fa-graduation-cap fa-5x"></i>
@@ -35,8 +35,8 @@
         </div>
 
         <div class="col-sm-6 col-md-4 col-lg-3" align="center">
-          <nb-card class="exp-card" *ngIf="info_ente_id"
-            (click)="perfil_editar('experiencia_laboral')">
+          <nb-card class="exp-card"
+            (click)="perfil_editar('experiencia_laboral')"><!--//*ngIf="info_ente_id"-->
             <nb-card-header>{{ 'GLOBAL.experiencia_laboral' | translate }}</nb-card-header>
             <nb-card-body class="icon-form">
               <i class="fa fa-briefcase fa-5x"></i>
@@ -46,8 +46,8 @@
         </div>
 
         <div class="col-sm-6 col-md-4 col-lg-3" align="center">
-          <nb-card class="exp-card" *ngIf="info_ente_id"
-            (click)="perfil_editar('produccion_academica')">
+          <nb-card class="exp-card"
+            (click)="perfil_editar('produccion_academica')"><!--//*ngIf="info_ente_id"-->
             <nb-card-header>{{ 'GLOBAL.produccion_academica' | translate }}</nb-card-header>
             <nb-card-body class="icon-form">
               <i class="fa fa-book fa-5x"></i>
@@ -57,8 +57,19 @@
         </div>
 
         <div class="col-sm-6 col-md-4 col-lg-3" align="center">
-          <nb-card class="exp-card" *ngIf="info_ente_id"
-            (click)="perfil_editar('descuento_matricula')">
+          <nb-card class="exp-card"
+            (click)="perfil_editar('documento_programa')"><!--//*ngIf="info_ente_id"-->
+            <nb-card-header>{{ 'GLOBAL.documento_programa' | translate }}</nb-card-header>
+            <nb-card-body class="icon-form">
+              <i class="fa fa-list-alt fa-5x"></i>
+              <p class="percentage">{{percentage_docu}} %</p>
+            </nb-card-body>
+          </nb-card>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-3" align="center">
+          <nb-card class="exp-card"
+            (click)="perfil_editar('descuento_matricula')"><!--//*ngIf="info_ente_id"-->
             <nb-card-header>{{ 'GLOBAL.descuento_matricula' | translate }}</nb-card-header>
             <nb-card-body class="icon-form">
               <i class="fa fa-dollar fa-5x"></i>
@@ -68,8 +79,8 @@
         </div>
 
         <div class="col-sm-6 col-md-4 col-lg-3" align="center">
-          <nb-card class="exp-card" *ngIf="info_ente_id"
-            (click)="perfil_editar('propuesta_grado')">
+          <nb-card class="exp-card"
+            (click)="perfil_editar('propuesta_grado')"><!--//*ngIf="info_ente_id"-->
             <nb-card-header>{{ 'GLOBAL.propuesta_grado' | translate }}</nb-card-header>
             <nb-card-body class="icon-form">
               <i class="fa fa-file-pdf-o fa-5x"></i>
@@ -79,8 +90,8 @@
         </div>
 
         <div class="col-sm-6 col-md-4 col-lg-3" align="center">
-          <nb-card class="exp-card" *ngIf="info_ente_id"
-            (click)="perfil_editar('perfil')">
+          <nb-card class="exp-card"
+            (click)="perfil_editar('perfil')"><!--//*ngIf="info_ente_id"-->
             <nb-card-header>{{ 'GLOBAL.perfil' | translate }}</nb-card-header>
             <nb-card-body class="icon-form">
               <i class="fa fa-user fa-5x"></i>
@@ -114,7 +125,7 @@
         <div class="col-md-1" align="right">
           <button class="btn btn-danger btn-icon input-group-text btn-tn"
             (click)="show_profile=false; show_info=false; show_acad=false;
-            show_expe=false; show_proy=false; show_prod=false;
+            show_expe=false; show_proy=false; show_prod=false; show_docu=false;
             show_desc=false;">X</button>
         </div>
       </div>
@@ -148,7 +159,7 @@
     </nb-card-body>
   </nb-card>
 
-  <nb-card [hidden]="!show_acad" *ngIf="info_ente_id">
+  <nb-card [hidden]="!show_acad">/<!--/*ngIf="info_ente_id">-->
     <nb-card-body>
       <div class="row">
         <div class="col-md-11">
@@ -159,7 +170,7 @@
         <div class="col-md-1" align="right">
           <button class="btn btn-danger btn-icon input-group-text btn-tn"
             (click)="show_profile=false; show_info=false; show_acad=false;
-            show_expe=false; show_proy=false; show_prod=false;
+            show_expe=false; show_proy=false; show_prod=false; show_docu=false;
             show_desc=false;">X</button>
         </div>
       </div>
@@ -174,7 +185,7 @@
     </nb-card-body>
   </nb-card>
 
-  <nb-card [hidden]="!show_expe" *ngIf="info_ente_id">
+  <nb-card [hidden]="!show_expe"> <!--*ngIf="info_ente_id">-->
     <nb-card-body>
       <div class="row">
         <div class="col-md-11">
@@ -185,7 +196,7 @@
         <div class="col-md-1" align="right">
           <button class="btn btn-danger btn-icon input-group-text btn-tn"
             (click)="show_profile=false; show_info=false; show_acad=false;
-            show_expe=false; show_proy=false; show_prod=false;
+            show_expe=false; show_proy=false; show_prod=false; show_docu=false;
             show_desc=false;">X</button>
         </div>
       </div>
@@ -202,44 +213,70 @@
   <nb-card [hidden]="!show_prod">
     <nb-card-body>
       <div class="row">
-        <!-- <div class="col-md-11">
-                    <ngb-progressbar showValue="true" type="success" [value]="percentage_prod" [animated]="true" [height]="'15px'"></ngb-progressbar>
-                </div> -->
+        <div class="col-md-11">
+          <ngb-progressbar showValue="true" type="success"
+            [value]="percentage_prod" [animated]="true" [height]="'15px'"></ngb-progressbar>
+        </div>
         <div class="col-md-1" align="right">
           <button class="btn btn-danger btn-icon input-group-text btn-tn"
             (click)="show_profile=false; show_info=false; show_acad=false;
-            show_expe=false; show_proy=false; show_prod=false">X</button>
+            show_expe=false; show_proy=false; show_prod=false; show_docu=false;
+            show_desc=false;">X</button>
         </div>
       </div>
       <nb-tabset fullWidth (changeTab)="selectTab($event)">
-        <nb-tab tabTitle="{{ 'GLOBAL.produccion_libro' | translate }}">
-          <ngx-list-libro></ngx-list-libro>
+        <nb-tab tabTitle="{{ 'GLOBAL.libros' | translate }}">
+          <ngx-list-libro (result)="setPercentage_prod($event,0)"></ngx-list-libro>
         </nb-tab>
-        <nb-tab tabTitle="{{ 'GLOBAL.produccion_articulo' | translate }}">
-          <ngx-list-articulo></ngx-list-articulo>
+        <nb-tab tabTitle="{{ 'GLOBAL.articulos' | translate }}">
+          <ngx-list-articulo (result)="setPercentage_prod($event,1)"></ngx-list-articulo>
         </nb-tab>
-        <nb-tab tabTitle="{{ 'GLOBAL.produccion_traduccion' | translate }}">
-          <ngx-list-traduccion></ngx-list-traduccion>
+        <nb-tab tabTitle="{{ 'GLOBAL.traducciones' | translate }}">
+          <ngx-list-traduccion (result)="setPercentage_prod($event,2)"></ngx-list-traduccion>
         </nb-tab>
-        <nb-tab tabTitle="{{ 'GLOBAL.produccion_otra_publicacion' | translate
+        <nb-tab tabTitle="{{ 'GLOBAL.otra_publicacion' | translate
           }}">
-          <ngx-list-otra-publicacion></ngx-list-otra-publicacion>
+          <ngx-list-otra-publicacion (result)="setPercentage_prod($event,3)"></ngx-list-otra-publicacion>
         </nb-tab>
-        <nb-tab tabTitle="{{ 'GLOBAL.produccion_otro_documento' | translate }}">
-          <ngx-list-otro-documento></ngx-list-otro-documento>
+        <nb-tab tabTitle="{{ 'GLOBAL.otro_documento' | translate }}">
+          <ngx-list-otro-documento (result)="setPercentage_prod($event,4)"></ngx-list-otro-documento>
         </nb-tab>
         <nb-tab tabTitle="{{ 'GLOBAL.produccion_tecnica' | translate }}">
-          <ngx-list-produccion-tecnica></ngx-list-produccion-tecnica>
+          <ngx-list-produccion-tecnica (result)="setPercentage_prod($event,5)"></ngx-list-produccion-tecnica>
         </nb-tab>
         <nb-tab tabTitle="{{ 'GLOBAL.produccion_artes_arqu_diseno' | translate
           }}">
-          <ngx-list-produccion-artes-arqu-diseno></ngx-list-produccion-artes-arqu-diseno>
+          <ngx-list-produccion-artes-arqu-diseno (result)="setPercentage_prod($event,6)"></ngx-list-produccion-artes-arqu-diseno>
         </nb-tab>
       </nb-tabset>
     </nb-card-body>
   </nb-card>
 
-  <nb-card [hidden]="!show_desc" *ngIf="info_ente_id">
+  <nb-card [hidden]="!show_docu"> <!--*ngIf="info_ente_id">-->
+    <nb-card-body>
+      <div class="row">
+        <div class="col-md-11">
+          <ngb-progressbar showValue="true" type="success"
+            [value]="percentage_docu" [animated]="true"
+            [height]="'15px'"></ngb-progressbar>
+        </div>
+        <div class="col-md-1" align="right">
+          <button class="btn btn-danger btn-icon input-group-text btn-tn"
+            (click)="show_profile=false; show_info=false; show_acad=false;
+            show_expe=false; show_proy=false; show_prod=false; show_docu=false;
+            show_desc=false;">X</button>
+        </div>
+      </div>
+      <nb-tabset fullWidth (changeTab)="selectTab($event)">
+        <nb-tab tabTitle="{{ 'GLOBAL.documento_programa' | translate }}">
+          <ngx-list-documento-programa (result)="setPercentage_docu($event,0)">
+          </ngx-list-documento-programa>
+        </nb-tab>
+      </nb-tabset>
+    </nb-card-body>
+  </nb-card>
+
+  <nb-card [hidden]="!show_desc"> <!--*ngIf="info_ente_id">-->
     <nb-card-body>
       <div class="row">
         <div class="col-md-11">
@@ -250,7 +287,7 @@
         <div class="col-md-1" align="right">
           <button class="btn btn-danger btn-icon input-group-text btn-tn"
             (click)="show_profile=false; show_info=false; show_acad=false;
-            show_expe=false; show_proy=false; show_prod=false;
+            show_expe=false; show_proy=false; show_prod=false; show_docu=false;
             show_desc=false;">X</button>
         </div>
       </div>
@@ -274,13 +311,13 @@
         <div class="col-md-1" align="right">
           <button class="btn btn-danger btn-icon input-group-text btn-tn"
             (click)="show_profile=false; show_info=false; show_acad=false;
-            show_expe=false; show_proy=false; show_prod=false;
+            show_expe=false; show_proy=false; show_prod=false; show_docu=false;
             show_desc=false;">X</button>
         </div>
       </div>
       <nb-tabset fullWidth (changeTab)="selectTab($event)">
         <nb-tab tabTitle="{{ 'GLOBAL.propuesta_grado' | translate }}">
-          <ngx-crud-propuesta-grado (result)="setPercentage_proy($event,4)"></ngx-crud-propuesta-grado>
+          <ngx-crud-propuesta-grado (result)="setPercentage_proy($event,0)"></ngx-crud-propuesta-grado>
         </nb-tab>
       </nb-tabset>
     </nb-card-body>

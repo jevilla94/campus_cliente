@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ProduccionAcademicaService } from '../../../@core/data/produccion_academica.service';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
@@ -20,6 +20,12 @@ export class ListLibroComponent implements OnInit {
   settings: any;
   source: LocalDataSource = new LocalDataSource();
 
+  @Output() eventChange = new EventEmitter();
+  @Output('result') result: EventEmitter<any> = new EventEmitter();
+
+  loading: boolean;
+  percentage: number;
+
   constructor(private translate: TranslateService,
     private produccionAcademicaService: ProduccionAcademicaService,
     private userService: UserService,
@@ -29,6 +35,12 @@ export class ListLibroComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.cargarCampos();
     });
+    this.loading = false;
+  }
+
+  getPercentage(event) {
+    this.percentage = event;
+    this.result.emit(this.percentage);
   }
 
   cargarCampos() {
@@ -49,90 +61,42 @@ export class ListLibroComponent implements OnInit {
       },
       mode: 'external',
       columns: {
-        // Persona: {
-        //   title: this.translate.instant('GLOBAL.persona'),
-        //   // type: 'number;',
-        //   valuePrepareFunction: (value) => {
-        //     return value.Nombre;
-        //   },
-        // },
         TituloLibro: {
-          title: this.translate.instant('GLOBAL.titulolibro'),
-          // type: 'string;',
+          title: this.translate.instant('GLOBAL.titulo_libro'),
           valuePrepareFunction: (value) => {
             return value;
           },
         },
         TipoPublicacion: {
-          title: this.translate.instant('GLOBAL.tipopublicacion'),
-          // type: 'tipo_publicacion_libro;',
+          title: this.translate.instant('GLOBAL.tipo_publicacion'),
           valuePrepareFunction: (value) => {
             return value.Nombre;
           },
         },
         TituloCapitulo: {
-          title: this.translate.instant('GLOBAL.titulocapitulo'),
-          // type: 'string;',
-          valuePrepareFunction: (value) => {
-            return value;
-          },
-        },
-        Paginas: {
-          title: this.translate.instant('GLOBAL.paginas'),
-          // type: 'number;',
+          title: this.translate.instant('GLOBAL.titulo_capitulo'),
           valuePrepareFunction: (value) => {
             return value;
           },
         },
         Ano: {
           title: this.translate.instant('GLOBAL.ano'),
-          // type: 'number;',
-          valuePrepareFunction: (value) => {
-            return value;
-          },
-        },
-        Mes: {
-          title: this.translate.instant('GLOBAL.mes'),
-          // type: 'number;',
           valuePrepareFunction: (value) => {
             return value;
           },
         },
         Isbn: {
           title: this.translate.instant('GLOBAL.isbn'),
-          // type: 'number;',
           valuePrepareFunction: (value) => {
             return value;
           },
         },
-        // Ubicacion: {
-        //   title: this.translate.instant('GLOBAL.ubicacion'),
-        //   // type: 'number;',
-        //   valuePrepareFunction: (value) => {
-        //     return value;
-        //   },
-        // },
         MedioDivulgacion: {
-          title: this.translate.instant('GLOBAL.mediodivulgacion'),
-          // type: 'medio_divulgacion;',
+          title: this.translate.instant('GLOBAL.medio_divulgacion'),
           valuePrepareFunction: (value) => {
             return value.Nombre;
           },
         },
-        // MedioPublicacion: {
-        //   title: this.translate.instant('GLOBAL.mediopublicacion'),
-        //   // type: 'medio_publicacion;',
-        //   valuePrepareFunction: (value) => {
-        //     return value.Nombre;
-        //   },
-        // },
-        // Editorial: {
-        //   title: this.translate.instant('GLOBAL.editorial'),
-        //   // type: 'string;',
-        //   valuePrepareFunction: (value) => {
-        //     return value;
-        //   },
-        // },
       },
     };
   }
@@ -146,8 +110,9 @@ export class ListLibroComponent implements OnInit {
       .subscribe(res => {
         if (res !== null) {
           const data = <Array<any>>res;
+          this.loading = false;
+          this.getPercentage(1);
           this.source.load(data);
-
         }
       },
         (error: HttpErrorResponse) => {
@@ -155,6 +120,8 @@ export class ListLibroComponent implements OnInit {
             type: 'error',
             title: error.status + '',
             text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.libros'),
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
           });
         });
@@ -165,32 +132,43 @@ export class ListLibroComponent implements OnInit {
 
   onEdit(event): void {
     this.uid = event.data.Id;
-    this.activetab();
   }
 
   onCreate(event): void {
     this.uid = 0;
-    this.activetab();
   }
 
   onDelete(event): void {
     const opt: any = {
-      title: 'Deleting?',
-      text: 'Delete Libro!',
+      title: this.translate.instant('GLOBAL.eliminar'),
+      text: this.translate.instant('GLOBAL.eliminar') + '?',
       icon: 'warning',
       buttons: true,
       dangerMode: true,
       showCancelButton: true,
+      confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+      cancelButtonText: this.translate.instant('GLOBAL.cancelar'),
     };
     Swal(opt)
       .then((willDelete) => {
-
         if (willDelete.value) {
           this.produccionAcademicaService.delete('libro/', event.data).subscribe(res => {
             if (res !== null) {
               this.loadData();
-              this.showToast('info', 'deleted', 'Libro deleted');
+              this.showToast('info', this.translate.instant('GLOBAL.eliminar'),
+                this.translate.instant('GLOBAL.libro') + ' ' +
+                this.translate.instant('GLOBAL.confirmarEliminar'));
             }
+          },
+          (error: HttpErrorResponse) => {
+            Swal({
+              type: 'error',
+              title: error.status + '',
+              text: this.translate.instant('ERROR.' + error.status),
+              footer: this.translate.instant('GLOBAL.eliminar') + '-' +
+                this.translate.instant('GLOBAL.libro'),
+              confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+            });
           });
         }
       });
@@ -211,13 +189,11 @@ export class ListLibroComponent implements OnInit {
   onChange(event) {
     if (event) {
       this.loadData();
-      this.cambiotab = !this.cambiotab;
+      this.uid = 0;
     }
   }
 
-
   itemselec(event): void {
-    // console.log("afssaf");
   }
 
   private showToast(type: string, title: string, body: string) {
@@ -240,5 +216,4 @@ export class ListLibroComponent implements OnInit {
     };
     this.toasterService.popAsync(toast);
   }
-
 }

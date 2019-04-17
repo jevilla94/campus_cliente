@@ -29,11 +29,14 @@ export class CrudTraduccionComponent implements OnInit {
   }
 
   @Output() eventChange = new EventEmitter();
+  @Output('result') result: EventEmitter<any> = new EventEmitter();
 
   info_traduccion: Traduccion;
   formTraduccion: any;
   regTraduccion: any;
   clean: boolean;
+  loading: boolean;
+  percentage: number;
 
   constructor(
     private translate: TranslateService,
@@ -72,8 +75,20 @@ export class CrudTraduccionComponent implements OnInit {
           tipotraduccion = <Array<TipoTraduccion>>res;
         }
         this.formTraduccion.campos[this.getIndexForm('Tipotraduccion')].opciones = tipotraduccion;
-      });
+      },
+        (error: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.libro') + '|' +
+              this.translate.instant('GLOBAL.tipo_traduccion'),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
+        });
   }
+
   loadOptionsMediodivulgacion(): void {
     let mediodivulgacion: Array<any> = [];
     this.produccionAcademicaService.get('medio_divulgacion/?limit=0')
@@ -82,8 +97,20 @@ export class CrudTraduccionComponent implements OnInit {
           mediodivulgacion = <Array<MedioDivulgacion>>res;
         }
         this.formTraduccion.campos[this.getIndexForm('MedioDivulgacion')].opciones = mediodivulgacion;
-      });
+      },
+        (error: HttpErrorResponse) => {
+          Swal({
+            type: 'error',
+            title: error.status + '',
+            text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.traduccion') + '|' +
+              this.translate.instant('GLOBAL.medio_divulgacion'),
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+          });
+        });
   }
+
   loadOptionsIdiomas(): void {
     let idioma: Array<any> = [];
     this.idiomaService.get('idioma/?limit=0')
@@ -99,11 +126,13 @@ export class CrudTraduccionComponent implements OnInit {
             type: 'error',
             title: error.status + '',
             text: this.translate.instant('ERROR.' + error.status),
+            footer: this.translate.instant('GLOBAL.cargar') + '-' +
+              this.translate.instant('GLOBAL.traduccion') + '|' +
+              this.translate.instant('GLOBAL.idiomas'),
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
           });
         });
   }
-
 
   getIndexForm(nombre: String): number {
     for (let index = 0; index < this.formTraduccion.campos.length; index++) {
@@ -115,13 +144,15 @@ export class CrudTraduccionComponent implements OnInit {
     return 0;
   }
 
-
   public loadTraduccion(): void {
-    if (this.traduccion_id !== undefined && this.traduccion_id !== 0) {
+    this.loading = true;
+    if (this.traduccion_id !== undefined && this.traduccion_id !== 0 &&
+      this.traduccion_id.toString() !== '') {
       this.produccionAcademicaService.get('traduccion/?query=id:' + this.traduccion_id)
         .subscribe(res => {
           if (res !== null) {
             this.info_traduccion = <Traduccion>res[0];
+            this.loading = false;
           }
         });
     } else {
@@ -131,49 +162,88 @@ export class CrudTraduccionComponent implements OnInit {
   }
 
   updateTraduccion(traduccion: any): void {
-
     const opt: any = {
-      title: 'Update?',
-      text: 'Update Traduccion!',
+      title: this.translate.instant('GLOBAL.actualizar'),
+      text: this.translate.instant('GLOBAL.actualizar') + '?',
       icon: 'warning',
       buttons: true,
       dangerMode: true,
       showCancelButton: true,
+      confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+      cancelButtonText: this.translate.instant('GLOBAL.cancelar'),
     };
     Swal(opt)
       .then((willDelete) => {
         if (willDelete.value) {
+          this.loading = true;
           this.info_traduccion = <Traduccion>traduccion;
           this.produccionAcademicaService.put('traduccion', this.info_traduccion)
             .subscribe(res => {
-              this.loadTraduccion();
+              this.loading = false;
               this.eventChange.emit(true);
-              this.showToast('info', 'updated', 'Traduccion updated');
-            });
+              this.loadTraduccion();
+              this.showToast('info', this.translate.instant('GLOBAL.actualizar'),
+                this.translate.instant('GLOBAL.traduccion') + ' ' +
+                this.translate.instant('GLOBAL.confirmarActualizar'));
+              this.traduccion_id = 0;
+            },
+              (error: HttpErrorResponse) => {
+                Swal({
+                  type: 'error',
+                  title: error.status + '',
+                  text: this.translate.instant('ERROR.' + error.status),
+                  footer: this.translate.instant('GLOBAL.actualizar') + '-' +
+                    this.translate.instant('GLOBAL.traduccion'),
+                  confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                });
+              });
         }
       });
   }
 
   createTraduccion(traduccion: any): void {
     const opt: any = {
-      title: 'Create?',
-      text: 'Create Traduccion!',
+      title: this.translate.instant('GLOBAL.crear'),
+      text: this.translate.instant('GLOBAL.crear') + '?',
       icon: 'warning',
       buttons: true,
       dangerMode: true,
       showCancelButton: true,
+      confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+      cancelButtonText: this.translate.instant('GLOBAL.cancelar'),
     };
     Swal(opt)
       .then((willDelete) => {
+        this.loading = true;
         if (willDelete.value) {
           this.info_traduccion = <Traduccion>traduccion;
           this.info_traduccion.Persona = this.users.getEnte();
           this.produccionAcademicaService.post('traduccion', this.info_traduccion)
             .subscribe(res => {
-              this.info_traduccion = <Traduccion>res;
-              this.eventChange.emit(true);
-              this.showToast('info', 'created', 'Traduccion created');
-            });
+              const r = <any>res;
+              if (r !== null && r.Type !== 'error') {
+                this.info_traduccion = <Traduccion>res;
+                this.loading = false;
+                this.eventChange.emit(true);
+                this.showToast('info', this.translate.instant('GLOBAL.crear'),
+                  this.translate.instant('GLOBAL.traduccion') + ' ' +
+                  this.translate.instant('GLOBAL.confirmarCrear'));
+                this.clean = !this.clean;
+              } else {
+                this.showToast('error', this.translate.instant('GLOBAL.error'),
+                  this.translate.instant('GLOBAL.error'));
+              }
+            },
+              (error: HttpErrorResponse) => {
+                Swal({
+                  type: 'error',
+                  title: error.status + '',
+                  text: this.translate.instant('ERROR.' + error.status),
+                  footer: this.translate.instant('GLOBAL.crear') + '-' +
+                    this.translate.instant('GLOBAL.traduccion'),
+                  confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+                });
+              });
         }
       });
   }
@@ -190,6 +260,11 @@ export class CrudTraduccionComponent implements OnInit {
         this.updateTraduccion(event.data.Traduccion);
       }
     }
+  }
+
+  setPercentage(event) {
+    this.percentage = event;
+    this.result.emit(this.percentage);
   }
 
   private showToast(type: string, title: string, body: string) {
@@ -212,5 +287,4 @@ export class CrudTraduccionComponent implements OnInit {
     };
     this.toasterService.popAsync(toast);
   }
-
 }
