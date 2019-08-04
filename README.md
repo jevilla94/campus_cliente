@@ -1,7 +1,7 @@
 
 Project Documentation
 
-[Project Documentation using compodoc](https://udistrital.github.io/campus_cliente/documentation)
+[Project Documentation using compodoc](https://jevilla94.github.io/campus_cliente/documentation)
 
 
 
